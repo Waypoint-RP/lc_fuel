@@ -93,10 +93,16 @@ function createJerryCanThread()
 	end)
 end
 
+-- Code to save jerry can ammo in any inventory
 local currentWeaponData
-function UpdateWeaponAmmo(ammo)
+function updateWeaponAmmo(ammo)
+	ammo = math.floor(ammo) -- This is needed or some inventories will break
 	TriggerServerEvent('ox_inventory:updateWeapon', "ammo", ammo)
 	TriggerServerEvent("weapons:server:UpdateWeaponAmmo", currentWeaponData, ammo)
+	TriggerServerEvent("qb-weapons:server:UpdateWeaponAmmo", currentWeaponData, ammo)
+
+	local ped = PlayerPedId()
+	SetPedAmmo(ped, JERRY_CAN_HASH, ammo)
 end
 
 AddEventHandler('weapons:client:SetCurrentWeapon', function(data, bool)
@@ -106,6 +112,23 @@ AddEventHandler('weapons:client:SetCurrentWeapon', function(data, bool)
 		currentWeaponData = {}
 	end
 end)
+
+AddEventHandler('qb-weapons:client:SetCurrentWeapon', function(data, bool)
+	if bool ~= false then
+		currentWeaponData = data
+	else
+		currentWeaponData = {}
+	end
+end)
+
+-- Get jerry can ammo by metadata
+function getJerryCanAmmo()
+	if currentWeaponData and currentWeaponData.info and currentWeaponData.info.ammo then
+		return currentWeaponData.info.ammo
+	end
+	local ped = PlayerPedId()
+	return GetAmmoInPedWeapon(ped, JERRY_CAN_HASH)
+end
 
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- Refuelling
@@ -227,7 +250,7 @@ function refuelLoop(isFromJerryCan, fuelAmountPurchased, fuelTypePurchased, fuel
 	local closestVehicle
 	local customVehicleParameters
 	local closestVehicleHash
-	local remainingFuelToRefuel = isFromJerryCan and GetAmmoInPedWeapon(ped, JERRY_CAN_HASH) or fuelAmountPurchased
+	local remainingFuelToRefuel = isFromJerryCan and getJerryCanAmmo() or fuelAmountPurchased
 	local refuelingThread
 	local vehicleAttachedToNozzle
 
@@ -325,7 +348,7 @@ function refuelLoop(isFromJerryCan, fuelAmountPurchased, fuelTypePurchased, fuel
 										if isFromJerryCan then
 											-- Update the jerry can ammo
 											SetPedAmmo(ped, JERRY_CAN_HASH, remainingFuelToRefuel)
-											UpdateWeaponAmmo(remainingFuelToRefuel)
+											updateWeaponAmmo(remainingFuelToRefuel)
 										end
 										if isElectric then
 											exports['lc_utils']:notify("success", Utils.translate("vehicle_recharged"):format(Utils.Math.round(currentFuel - startingFuel, 1)))
