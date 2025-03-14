@@ -228,6 +228,17 @@ function setFuel(vehicle, fuel)
 	SetFuel(vehicle, fuel)
 end
 
+-- Alias LegacyFuel's exports to point to our lc_fuel functions:
+AddEventHandler('__cfx_export_LegacyFuel_SetFuel', function(setCB)
+    -- Redirect LegacyFuel:SetFuel to use lc_fuel's SetFuel function
+    setCB(SetFuel)
+end)
+
+AddEventHandler('__cfx_export_LegacyFuel_GetFuel', function(setCB)
+    -- Redirect LegacyFuel:GetFuel to use lc_fuel's GetFuel function
+    setCB(GetFuel)
+end)
+
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- Utils
 -----------------------------------------------------------------------------------------------------------------------------------------
