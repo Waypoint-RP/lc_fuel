@@ -14,6 +14,14 @@ local fuelSynced = false
 local closestVehicleToPump = 0
 local isNuiVariablesLoaded = false
 
+DecorRegister(fuelDecor, 1)
+-- Check if it actually registered
+if DecorIsRegisteredAsType(fuelDecor, 1) then
+	print("[Fuel Script] SUCCESS: fuelDecor was registered successfully!")
+else
+	print("[Fuel Script] ERROR: fuelDecor registration failed!")
+end
+
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- Threads
 -----------------------------------------------------------------------------------------------------------------------------------------
@@ -349,7 +357,7 @@ end
 
 function GetVehicleCapPos(vehicle)
 	local closestCapPos
-	local tanks = { "petrolcap", "petroltank", "petroltank_l", "petroltank_r", "wheel_lr", "wheel_lf", "engine"}
+	local tanks = vehicleCapBoneList()
 	for _, v in pairs(tanks) do
 		local vehicleTank = GetEntityBoneIndexByName(vehicle, v)
 		if vehicleTank ~= -1 then
@@ -572,6 +580,10 @@ function deleteRopeAndNozzleProp()
 	if DoesEntityExist(fuelNozzle) then
 		DeleteEntity(fuelNozzle)
 	end
+end
+
+function vehicleCapBoneList()
+    return { "petrolcap", "petroltank", "petroltank_l", "petroltank_r", "wheel_lr", "wheel_lf", "engine", "chassis_dummy" }
 end
 
 -- Do not change this, use the Config.CustomVehicleParameters in config.lua
