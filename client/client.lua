@@ -1234,14 +1234,14 @@ Config.HiddenCustomVehicleParameters = {
 	["tropic"] = { distance = 2.0, nozzleOffset = { forward = 1.00, right = -1.15, up = 0.71} , nozzleRotation = { x = -75, y = 0, z = 90} },
 	["tropic2"] = { distance = 2.0, nozzleOffset = { forward = 1.00, right = -1.15, up = 0.71} , nozzleRotation = { x = -75, y = 0, z = 90} },
 	["suntrap"] = { distance = 2.0, nozzleOffset = { forward = 0.55, right = -0.95, up = 0.93} , nozzleRotation = { x = -75, y = 0, z = 90} },
-	["squalo"] = { distance = 1.5, nozzleOffset = { forward = 0.0, right = -0.95, up = 0.57 } , nozzleRotation = { x = -60, y = 0, z = 90} },  -- jet surf
+	["squalo"] = { distance = 1.5, nozzleOffset = { forward = 0.0, right = -0.95, up = 0.57 } , nozzleRotation = { x = -60, y = 0, z = 90} },
 	["marquis"] = { distance = 1.5, nozzleOffset = { forward = 0.50, right = -1.35, up = 1.36 } , nozzleRotation = { x = -75, y = 0, z = 90} },
 	["jetmax"] = { distance = 2.0, nozzleOffset = { forward = 0.50, right = -0.90, up = 0.54 } , nozzleRotation = { x = -75, y = 0, z = 90} },
 	["dinghy"] = { distance = 1.0, nozzleOffset = { forward = -0.20, right = -0.69, up = 0.50 } , nozzleRotation = { x = 0, y = 0, z = 0} },
 	["dinghy2"] = { distance = 1.0, nozzleOffset = { forward = -0.20, right = -0.69, up = 0.50 } , nozzleRotation = { x = 0, y = 0, z = 0} },
 	["dinghy3"] = { distance = 1.0, nozzleOffset = { forward = -0.20, right = -0.69, up = 0.50 } , nozzleRotation = { x = 0, y = 0, z = 0} },
-	["dinghy4"] = { distance = 1.0, nozzleOffset = { forward = -0.20, right = -0.69, up = 0.50 } , nozzleRotation = { x = 0, y = 0, z = 0} },	
-	["dinghy5"] = { distance = 1.0, nozzleOffset = { forward = -0.20, right = -0.69, up = 0.50 } , nozzleRotation = { x = 0, y = 0, z = 0} },	
+	["dinghy4"] = { distance = 1.0, nozzleOffset = { forward = -0.20, right = -0.69, up = 0.50 } , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["dinghy5"] = { distance = 1.0, nozzleOffset = { forward = -0.20, right = -0.69, up = 0.50 } , nozzleRotation = { x = 0, y = 0, z = 0} },
 
     -- Jet
 	["seashark"] = { distance = 2.0, nozzleOffset = { forward = 0.89, right = 0.00, up = 0.42 } , nozzleRotation = { x = -60, y = 0, z = 90} },
@@ -1256,4 +1256,69 @@ Config.HiddenCustomVehicleParameters = {
     -- Big boats
 --	["kosatka"] = { distance = 6.0, nozzleOffset = { forward = 0.0, right = -0.15, up = 1.0 } },   ----- BIG SUBMARINE
 	["tug"] = { distance = 2.5, nozzleOffset = { forward = 0.0, right = 0.79, up = 0.20} , nozzleRotation = { x = 0, y = 0, z = 180} },
+
+    -- Plane
+	["streamer216"] = { distance = 1.5, nozzleOffset = { forward = -0.40, right = 1.02, up = 1.10 } , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["raiju"] = { distance = 3.0, nozzleOffset = { forward = 1.0, right = -0.85, up = -0.25 } , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["alkonost"] = { distance = 11.0, nozzleOffset = { forward = -2.60, right = -5.30, up = 0.90 } , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["strikeforce"] = { distance = 3.0, nozzleOffset = { forward = 3.0, right = 1.37, up = 1.60 } , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["blimp3"] = { distance = 2.0, nozzleOffset = { forward = -0.40, right = 0.41, up = 0.50 } , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["avenger"] = { distance = 2.0, nozzleOffset = { forward = -0.60, right = -0.73, up = 1.10} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["avenger2"] = { distance = 2.0, nozzleOffset = { forward = -0.60, right = -0.73, up = 1.10} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["volatol"] = { distance = 2.0, nozzleOffset = { forward = 0.80, right = 0.46, up = 1.85} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["nokota"] = { distance = 2.5, nozzleOffset = { forward = -1.50, right = 1.60, up = 0.50} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["seabreeze"] = { distance = 2.5, nozzleOffset = { forward = -0.20, right = -0.10, up = -1.70} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["pyro"] = { distance = 3.0, nozzleOffset = { forward = 2.10, right = 1.56, up = 0.90} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["mogul"] = { distance = 2.0, nozzleOffset = { forward = 0.30, right = -0.68, up = 1.10} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["howard"] = { distance = 2.5, nozzleOffset = { forward = 1.80, right = 1.25, up = 1.25} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["bombushka"] = { distance = 2.5, nozzleOffset = { forward = 0.50, right = -0.71, up = 1.25} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["molotok"] = { distance = 3.5, nozzleOffset = { forward = 2.00, right = -0.85, up = 0.55} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["microlight"] = { distance = 3.5, nozzleOffset = { forward = -0.02, right = 0.48, up = 0.30} , nozzleRotation = { x = 0, y = 0, z = 45} },
+	["tula"] = { distance = 3.5, nozzleOffset = { forward = 0.70, right = -0.52, up = -0.30} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["rogue"] = { distance = 3.5, nozzleOffset = { forward = 0.10, right = -0.15, up = 0.45} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["starling"] = { distance = 3.5, nozzleOffset = { forward = 0.10, right = -0.08, up = 0.00} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["alphaz1"] = { distance = 3.5, nozzleOffset = { forward = -1.00, right = -0.03, up = 0.00} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["nimbus"] = { distance = 5.0, nozzleOffset = { forward = 0.00, right = -0.10, up = -0.10} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["luxor2"] = { distance = 5.0, nozzleOffset = { forward = 0.00, right = 0.80, up = -0.30} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["velum2"] = { distance = 5.0, nozzleOffset = { forward = -0.30, right = -0.20, up = 0.00} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["hydra"] = { distance = 2.5, nozzleOffset = { forward = -1.80, right = 1.88, up = 1.35} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["blimp2"] = { distance = 2.0, nozzleOffset = { forward = -0.40, right = 0.41, up = 0.50 } , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["dodo"] = { distance = 2.0, nozzleOffset = { forward = -0.15, right = -0.13, up = 0.00} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["miljet"] = { distance = 6.0, nozzleOffset = { forward = 2.75, right = -0.47, up = -1.10} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["vestra"] = { distance = 2.5, nozzleOffset = { forward = 2.50, right = 1.35, up = 1.00} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["cargoplane"] = { distance = 2.5, nozzleOffset = { forward = 1.50, right = 0.27, up = 1.60} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["velum"] = { distance = 5.0, nozzleOffset = { forward = -0.30, right = -0.20, up = 0.00} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["titan"] = { distance = 2.5, nozzleOffset = { forward = 0.50, right = -0.46, up = 1.00} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["shamal"] = { distance = 2.5, nozzleOffset = { forward = 0.00, right = -0.10, up = -0.05} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["lazer"] = { distance = 2.5, nozzleOffset = { forward = 0.00, right = -0.09, up = -0.05} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["stunt"] = { distance = 2.5, nozzleOffset = { forward = 0.00, right = -0.08, up = -0.05} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["luxor"] = { distance = 5.0, nozzleOffset = { forward = 0.00, right = 0.80, up = -0.30} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["jet"] = { distance = 15.0, nozzleOffset = { forward = 1.20, right = 1.20, up = 2.00} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["duster"] = { distance = 2.5, nozzleOffset = { forward = -0.20, right = -0.15, up = -0.05} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["cuban800"] = { distance = 2.5, nozzleOffset = { forward = 1.00, right = 0.51, up = 0.20} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["blimp"] = { distance = 2.0, nozzleOffset = { forward = -0.40, right = 0.41, up = 0.50 } , nozzleRotation = { x = 0, y = 0, z = 0} },
+
+    -- Service
+	["brickade"] = { distance = 1.3, nozzleOffset = { forward = 0.00, right = 0.16, up = 0.0} , nozzleRotation = { x = 0, y = 0, z = 180} },
+	["brickade2"] = { distance = 1.3, nozzleOffset = { forward = 0.00, right = 0.16, up = 0.0} , nozzleRotation = { x = 0, y = 0, z = 180} },
+	["pbus2"] = { distance = 3.0, nozzleOffset = { forward = -2.38, right = -0.30, up = 0.50} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["wastelander"] = { distance = 2.5, nozzleOffset = { forward = 0.00, right = -0.05, up = -0.10} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["rallytruck"] = { distance = 2.0, nozzleOffset = { forward = 0.00, right = 0.64, up = 0.0} , nozzleRotation = { x = 0, y = 0, z = 180} },
+--	["metrotrain"] = { distance = 2.0, nozzleOffset = { forward = 0.00, right = 0.64, up = 0.0} , nozzleRotation = { x = 0, y = 0, z = 180} },  --- metro
+--	["freight"] = { distance = 2.0, nozzleOffset = { forward = 0.00, right = 0.64, up = 0.0} , nozzleRotation = { x = 0, y = 0, z = 180} },		-- train
+--	["cablecar"] = { distance = 2.0, nozzleOffset = { forward = 0.00, right = 0.64, up = 0.0} , nozzleRotation = { x = 0, y = 0, z = 180} },	-- cablecar
+	["trash"] = { distance = 2.5, nozzleOffset = { forward = 0.00, right = -0.15, up = 0.00} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["trash2"] = { distance = 2.5, nozzleOffset = { forward = 0.00, right = -0.15, up = 0.00} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["tourbus"] = { distance = 2.0, nozzleOffset = { forward = -0.50, right = -0.33, up = 0.50} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["taxi"] = { distance = 2.0, nozzleOffset = { forward = -0.50, right = -0.20, up = 0.45} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["rentalbus"] = { distance = 2.0, nozzleOffset = { forward = -0.50, right = -0.33, up = 0.50} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["coach"] = { distance = 2.0, nozzleOffset = { forward = -0.80, right = -0.29, up = 0.50} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["bus"] = { distance = 2.0, nozzleOffset = { forward = -0.80, right = -0.28, up = 0.50} , nozzleRotation = { x = 0, y = 0, z = 0} },
+	["airbus"] = { distance = 2.0, nozzleOffset = { forward = -0.80, right = -0.28, up = 0.50} , nozzleRotation = { x = 0, y = 0, z = 0} },
+
+    -- Race
+	["openwheel2"] = { distance = 2.0, nozzleOffset = { forward = 0.0, right = -0.60, up = 0.30} , nozzleRotation = { x = -75, y = 0, z = 90} },
+	["openwheel1"] = { distance = 2.0, nozzleOffset = { forward = 0.0, right = -0.60, up = 0.35} , nozzleRotation = { x = -75, y = 0, z = 90} },
+	["formula2"] = { distance = 2.0, nozzleOffset = { forward = 0.0, right = -0.50, up = 0.29} , nozzleRotation = { x = -75, y = 0, z = 90} },
+	["formula"] = { distance = 2.0, nozzleOffset = { forward = 0.0, right = -0.50, up = 0.29} , nozzleRotation = { x = -75, y = 0, z = 90} },
 }
