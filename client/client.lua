@@ -325,6 +325,7 @@ function CreateRopeToPump(pumpCoords)
 	Wait(100)
 
 	local nozzlePos = GetOffsetFromEntityInWorldCoords(fuelNozzle, 0.0, -0.033, -0.195)
+    ---@diagnostic disable-next-line: param-type-mismatch
 	AttachEntitiesToRope(ropeObj, currentPump, fuelNozzle, pumpCoords.x + finalOffset.x, pumpCoords.y + finalOffset.y, pumpCoords.z + finalOffset.z, nozzlePos.x, nozzlePos.y, nozzlePos.z, 30.0, false, false, nil, nil)
 	return ropeObj
 end
@@ -518,11 +519,11 @@ end)
 if Config.EnableHUD then
 	local function DrawAdvancedText(x,y ,w,h,sc, text, r,g,b,a,font,jus)
 		SetTextFont(font)
-		SetTextProportional(0)
+		SetTextProportional(false)
 		SetTextScale(sc, sc)
-		N_0x4e096588b13ffeca(jus)
+		SetTextJustification(jus)
 		SetTextColour(r, g, b, a)
-		SetTextDropShadow(0, 0, 0, 0,255)
+		SetTextDropShadow()
 		SetTextEdge(1, 0, 0, 0, 255)
 		SetTextDropShadow()
 		SetTextOutline()
