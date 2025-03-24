@@ -67,7 +67,7 @@ function createElectricTargetsThread()
 	end
 
 	-- Pass unique models to the target creation function
-	Utils.Target.createTargetForModel(pumpModels, openElectricUICallback, cachedTranslations.open_recharge_target, "fas fa-plug", "#00a413")
+	Utils.Target.createTargetForModel(pumpModels, openElectricUICallback, Utils.translate('target.open_recharge'), "fas fa-plug", "#00a413")
 end
 
 function openElectricUICallback()

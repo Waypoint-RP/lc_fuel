@@ -4,9 +4,9 @@
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 version = ''
-subversion = ''
+subversion = '-beta.1'
 api_response = {}
-local utils_required_version = '1.2.0'
+local utils_required_version = '1.2.1'
 local utils_outdated = false
 
 function checkVersion()
@@ -22,7 +22,7 @@ function checkVersion()
 					local latest_version = Utils.Math.trim(resultData)
 
 					api_response.latest_version = latest_version
-					if latest_version ~= version then
+					if Utils.Math.checkIfCurrentVersionisOutdated(latest_version, version) then
 						api_response.has_update = true
 						print("^4["..GetCurrentResourceName().."] An update is available, download it in https://github.com/LeonardoSoares98/lc_fuel/releases/latest/download/lc_fuel.zip^7 ^3[v"..api_response.latest_version.."]^7")
 					else
@@ -272,7 +272,7 @@ function removeStockFromStation(gasStationId, pricePaid, fuelAmount, fuelType, i
 			return false
 		else
 			local sql = "INSERT INTO `gas_station_balance` (gas_station_id,income,title,amount,date) VALUES (@gas_station_id,@income,@title,@amount,@date)";
-			Utils.Database.execute(sql, {['@gas_station_id'] = gasStationId, ['@income'] = 0, ['@title'] = Utils.translate('gas_stations_balance_electric'):format(fuelAmount), ['@amount'] = pricePaid, ['@date'] = os.time()});
+			Utils.Database.execute(sql, {['@gas_station_id'] = gasStationId, ['@income'] = 0, ['@title'] = Utils.translate('owned_gas_stations.balance_electric'):format(fuelAmount), ['@amount'] = pricePaid, ['@date'] = os.time()});
 		end
 	else
 		if query.stock < fuelAmount then
@@ -284,10 +284,10 @@ function removeStockFromStation(gasStationId, pricePaid, fuelAmount, fuelType, i
 
 		if isJerryCan then
 			local sql = "INSERT INTO `gas_station_balance` (gas_station_id,income,title,amount,date) VALUES (@gas_station_id,@income,@title,@amount,@date)";
-			Utils.Database.execute(sql, {['@gas_station_id'] = gasStationId, ['@income'] = 0, ['@title'] = Utils.translate('gas_stations_balance_jerry_can'):format(fuelAmount), ['@amount'] = pricePaid, ['@date'] = os.time()});
+			Utils.Database.execute(sql, {['@gas_station_id'] = gasStationId, ['@income'] = 0, ['@title'] = Utils.translate('owned_gas_stations.balance_jerry_can'):format(fuelAmount), ['@amount'] = pricePaid, ['@date'] = os.time()});
 		else
 			local sql = "INSERT INTO `gas_station_balance` (gas_station_id,income,title,amount,date) VALUES (@gas_station_id,@income,@title,@amount,@date)";
-			Utils.Database.execute(sql, {['@gas_station_id'] = gasStationId, ['@income'] = 0, ['@title'] = Utils.translate('gas_stations_balance_fuel'):format(fuelAmount), ['@amount'] = pricePaid, ['@date'] = os.time()});
+			Utils.Database.execute(sql, {['@gas_station_id'] = gasStationId, ['@income'] = 0, ['@title'] = Utils.translate('owned_gas_stations.balance_fuel'):format(fuelAmount), ['@amount'] = pricePaid, ['@date'] = os.time()});
 		end
 	end
 	return true

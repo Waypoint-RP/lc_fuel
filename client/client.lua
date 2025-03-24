@@ -6,6 +6,7 @@ mainUiOpen = false
 fuelNozzle = 0
 fuelRope = 0
 currentPump = 0
+JERRY_CAN_HASH = 883325847
 
 -- Local variables
 local fuelDecor = "_FUEL_LEVEL"
@@ -474,12 +475,10 @@ Citizen.CreateThread(function()
 	Utils.loadLanguageFile(Lang)
 
 	cachedTranslations = {
-		open_refuel = Utils.translate('open_refuel'),
-		open_refuel_target = Utils.translate('open_refuel_target'),
-		open_recharge = Utils.translate('open_recharge'),
-		open_recharge_target = Utils.translate('open_recharge_target'),
-		interact_with_vehicle = Utils.translate('interact_with_vehicle'),
-		return_nozzle = Utils.translate('return_nozzle'),
+		open_refuel = Utils.translate('markers.open_refuel'),
+		open_recharge = Utils.translate('markers.open_recharge'),
+		interact_with_vehicle = Utils.translate('markers.interact_with_vehicle'),
+		return_nozzle = Utils.translate('markers.return_nozzle'),
 	}
 
 	convertConfigVehiclesDisplayNameToHash()
@@ -509,9 +508,14 @@ Citizen.CreateThread(function()
 		end)
 	end
 
+    -- Refuel
+    if Utils.Config.custom_scripts_compatibility.target ~= "disabled" then
+        createTargetForVehicleIteraction()
+    end
+
 	-- Other threads
 	createFuelConsumptionThread()
-	if Config.JerryCan.enabled then
+	if Config.JerryCan.enabled and Utils.Config.custom_scripts_compatibility.target == "disabled" then
 		createJerryCanThread()
 	end
 end)

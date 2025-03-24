@@ -15,6 +15,7 @@ client_scripts {
 	"client/client.lua",
 	"client/client_gas.lua",
 	"client/client_electric.lua",
+	"client/client_refuel.lua",
 }
 
 server_scripts {
