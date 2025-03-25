@@ -11,6 +11,8 @@ local electricChargers = {}
 
 -- Create sphere zones for each station, hooking up onEnter/onExit
 function createElectricZones()
+    assert(Utils.Zones, "You are using an outdated version of lc_utils. Please update your 'lc_utils' script to the latest version: https://github.com/LeonardoSoares98/lc_utils/releases/latest/download/lc_utils.zip")
+
     local stations = groupChargersByStation()
 
     for _, station in pairs(stations) do
