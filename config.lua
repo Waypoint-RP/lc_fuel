@@ -8,6 +8,7 @@ Config.NozzleProps = {			-- Props used in the script
 	gas = "prop_cs_fuel_nozle",
 	electric = "prop_eletricpistol",
 }
+Config.ReturnNozzleRefund = true -- The user gets refunded when returning nozzle to the pump with some remaining unused fuel. The refund is proportional to the unused fuel amount
 
 -- JerryCan settings
 Config.JerryCan = {

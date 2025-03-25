@@ -103,6 +103,10 @@ function returnNozzle()
         Wait(300)
         StopAnimTask(ped, "anim@am_hold_up@male", "shoplift_high", 1.0)
         deleteRopeAndNozzleProp()
+
+        if Config.ReturnNozzleRefund then
+            TriggerServerEvent('lc_fuel:returnNozzle', remainingFuelToRefuel)
+        end
     end
 end
 

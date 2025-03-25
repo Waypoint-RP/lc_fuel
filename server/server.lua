@@ -43,6 +43,7 @@ end
 Utils = Utils or exports['lc_utils']:GetUtils()
 local cooldown = {}
 local playerVehiclesFuelType = {}
+local fuelPurchased = {}
 
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- Script functions
@@ -85,9 +86,52 @@ AddEventHandler("lc_fuel:confirmRefuel",function(data)
 
 		Utils.Framework.tryRemoveAccountMoney(source, finalPrice, Config.Accounts[data.paymentMethod])
 
+        fuelPurchased[source] = {
+            finalPrice = finalPrice,
+            account = Config.Accounts[data.paymentMethod],
+            selectedFuelType = data.selectedFuelType,
+            fuelAmount = data.fuelAmount,
+            pricePerLiter = pricePerLiter,
+        }
+
 		TriggerClientEvent("lc_fuel:getPumpNozzle", source, data.fuelAmount, data.selectedFuelType)
 		TriggerClientEvent("lc_fuel:Notify", source, "success", Utils.translate('refuel_paid'):format(Utils.numberFormat(finalPrice)))
 	end)
+end)
+
+
+RegisterServerEvent("lc_fuel:returnNozzle")
+AddEventHandler("lc_fuel:returnNozzle",function(remainingFuel)
+	local source = source
+	Wrapper(source,function(user_id)
+
+        if not Config.ReturnNozzleRefund then
+            return
+        end
+
+        if not fuelPurchased[source] then
+            return
+        end
+
+        if remainingFuel < 1 then
+            fuelPurchased[source] = nil
+            return
+        end
+
+        local amountToReturn = remainingFuel * fuelPurchased[source].pricePerLiter
+
+        if amountToReturn > fuelPurchased[source].finalPrice or remainingFuel > fuelPurchased[source].fuelAmount then
+            print("User "..user_id.." initially purchased "..fuelPurchased[source].fuelAmount.."L of fuel but now is returning "..remainingFuel.."L. Is this user trying to glitch something?")
+            print("User coords: "..GetEntityCoords(GetPlayerPed(source)))
+            fuelPurchased[source] = nil
+            return
+        end
+
+        TriggerClientEvent("lc_fuel:Notify", source, "success", Utils.translate('returned_fuel'):format(Utils.numberFormat(remainingFuel), Utils.numberFormat(amountToReturn)))
+        Utils.Framework.giveAccountMoney(source, amountToReturn, fuelPurchased[source].account)
+
+        fuelPurchased[source] = nil
+    end)
 end)
 
 RegisterServerEvent("lc_fuel:confirmJerryCanPurchase")

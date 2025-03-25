@@ -19,6 +19,7 @@ Lang['es'] = {
     ['not_enough_money'] = "No tienes $%s para pagar esto",
     ['not_enough_stock'] = "Esta gasolinera no tiene suficiente stock para realizar esta acción",
     ['refuel_paid'] = "Pagaste $%s por este repostaje",
+    ['returned_fuel'] = "Has devuelto %sL de combustible y recuperado $%s",
     ['jerry_can_paid'] = "Pagaste $%s por este bidón de gasolina",
     ['too_far_away'] = "Estás demasiado lejos del surtidor",
     ['vehicle_refueled'] = "Repostaste %sL en el vehículo",
