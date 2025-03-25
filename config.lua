@@ -351,6 +351,7 @@ Config.CustomVehicleParameters = {
 -- Settings for the map blips
 Config.Blips = {
 	enabled = true,				-- Enable/ disable the blips
+    onlyShowNearestBlip = false,-- This will only show the nearest gas station to the user
 	blipId = 361,				-- Blip ID https://docs.fivem.net/docs/game-references/blips/
 	color = 41,					-- Blip Color
 	scale = 0.6,				-- Blip Scale

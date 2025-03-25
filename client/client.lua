@@ -430,10 +430,48 @@ function GetClosestPump(coords, isElectric)
 end
 
 function createBlips()
-	local text = Utils.translate('blip_text')
-	for _, blipCoords in pairs(Config.Blips.locations) do
-		Utils.Blips.createBlipForCoords(blipCoords.x,blipCoords.y,blipCoords.z,Config.Blips.blipId,Config.Blips.color,text,Config.Blips.scale,false)
-	end
+    if Config.Blips.onlyShowNearestBlip then
+        Citizen.CreateThread(function()
+            local currentBlip = 0
+            local currentBlipIndex = 0
+
+            while true do
+                local coords = GetEntityCoords(PlayerPedId())
+                local closestBlipDistance = math.maxinteger
+                local closestBlipCoords
+                local closestBlipId
+
+                for blipId, blipCoord in pairs(Config.Blips.locations) do
+                    local distanceToBlip = #(coords - blipCoord)
+
+                    if distanceToBlip < closestBlipDistance then
+                        closestBlipDistance = distanceToBlip
+                        closestBlipCoords = blipCoord
+                        closestBlipId = blipId
+                    end
+                end
+
+                if currentBlipIndex ~= closestBlipId then
+                    if DoesBlipExist(currentBlip) then
+                        Utils.Blips.removeBlip(currentBlip)
+                    end
+
+                    if closestBlipCoords then
+                        currentBlip = Utils.Blips.createBlipForCoords(closestBlipCoords.x,closestBlipCoords.y,closestBlipCoords.z,Config.Blips.blipId,Config.Blips.color,Utils.translate('blip_text'),Config.Blips.scale,false)
+                    end
+
+                    currentBlipIndex = closestBlipId
+                end
+
+                Citizen.Wait(5000)
+            end
+        end)
+    else
+        local text = Utils.translate('blip_text')
+        for _, blipCoords in pairs(Config.Blips.locations) do
+            Utils.Blips.createBlipForCoords(blipCoords.x,blipCoords.y,blipCoords.z,Config.Blips.blipId,Config.Blips.color,text,Config.Blips.scale,false)
+        end
+    end
 end
 
 function convertConfigVehiclesDisplayNameToHash()

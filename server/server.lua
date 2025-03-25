@@ -453,7 +453,10 @@ Citizen.CreateThread(function()
 	Utils.loadLanguageFile(Lang)
 
 	-- Config validator
-	local configs_to_validate = {}
+	local configs_to_validate = {
+		{ config_path = {"Blips", "onlyShowNearestBlip"}, default_value = false },
+		{ config_path = {"ReturnNozzleRefund"}, default_value = true },
+	}
 	Config = Utils.validateConfig(Config, configs_to_validate)
 
 	Wait(1000)
