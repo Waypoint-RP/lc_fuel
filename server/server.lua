@@ -271,60 +271,65 @@ function removeStockFromStation(gasStationId, pricePaid, fuelAmount, fuelType, i
     end
 
     -- If not owned
+    local stationData = getStationDataFromConfig()
     if not gasStationId then
-        local stationData = getStationDataFromConfig()
         if stationData.stationStock[fuelType] >= fuelAmount then
-            -- If set in config to have stock
+            -- If set in config to unowed gas stations have stock
             return true
         else
             return false
         end
     end
 
-	local column = "stock_"..fuelType
-	if fuelType == "regular" then
-		column = "stock"
-	end
+    local column = "stock_"..fuelType
+    if fuelType == "regular" then
+        column = "stock"
+    end
 
-	local sql = "SELECT "..column.." as stock FROM gas_station_business WHERE gas_station_id = @gas_station_id";
-	local query = Utils.Database.fetchAll(sql, {['@gas_station_id'] = gasStationId})[1];
+    local sql = "SELECT "..column.." as stock FROM gas_station_business WHERE gas_station_id = @gas_station_id";
+    local query = Utils.Database.fetchAll(sql, {['@gas_station_id'] = gasStationId})[1];
 
-	if not query then
-		return true
-	end
+    if not query then
+        if stationData.stationStock[fuelType] >= fuelAmount then
+            -- If set in config to unowed gas stations have stock
+            return true
+        else
+            return false
+        end
+    end
 
-	if isFuelTypeElectric(fuelType) then
-		if query.stock < 1 then
-			return false
-		end
+    if isFuelTypeElectric(fuelType) then
+        if query.stock < 1 then
+            return false
+        end
 
-		local sql = "UPDATE `gas_station_business` SET customers = customers + 1, money = money + @price, total_money_earned = total_money_earned + @price WHERE gas_station_id = @gas_station_id";
-		Utils.Database.execute(sql, {['@gas_station_id'] = gasStationId, ['@price'] = pricePaid, ['@amount'] = fuelAmount});
+        local sql = "UPDATE `gas_station_business` SET customers = customers + 1, money = money + @price, total_money_earned = total_money_earned + @price WHERE gas_station_id = @gas_station_id";
+        Utils.Database.execute(sql, {['@gas_station_id'] = gasStationId, ['@price'] = pricePaid, ['@amount'] = fuelAmount});
 
-		if isJerryCan then
-			print("Jerry can in electric charger???")
-			return false
-		else
-			local sql = "INSERT INTO `gas_station_balance` (gas_station_id,income,title,amount,date) VALUES (@gas_station_id,@income,@title,@amount,@date)";
-			Utils.Database.execute(sql, {['@gas_station_id'] = gasStationId, ['@income'] = 0, ['@title'] = Utils.translate('owned_gas_stations.balance_electric'):format(fuelAmount), ['@amount'] = pricePaid, ['@date'] = os.time()});
-		end
-	else
-		if query.stock < fuelAmount then
-			return false
-		end
+        if isJerryCan then
+            print("Jerry can in electric charger???")
+            return false
+        else
+            local sql = "INSERT INTO `gas_station_balance` (gas_station_id,income,title,amount,date) VALUES (@gas_station_id,@income,@title,@amount,@date)";
+            Utils.Database.execute(sql, {['@gas_station_id'] = gasStationId, ['@income'] = 0, ['@title'] = Utils.translate('owned_gas_stations.balance_electric'):format(fuelAmount), ['@amount'] = pricePaid, ['@date'] = os.time()});
+        end
+    else
+        if query.stock < fuelAmount then
+            return false
+        end
 
-		local sql = "UPDATE `gas_station_business` SET "..column.." = @stock, customers = customers + 1, money = money + @price, total_money_earned = total_money_earned + @price, gas_sold = gas_sold + @amount WHERE gas_station_id = @gas_station_id";
-		Utils.Database.execute(sql, {['@gas_station_id'] = gasStationId, ['@stock'] = (query.stock - fuelAmount), ['@price'] = pricePaid, ['@amount'] = fuelAmount});
+        local sql = "UPDATE `gas_station_business` SET "..column.." = @stock, customers = customers + 1, money = money + @price, total_money_earned = total_money_earned + @price, gas_sold = gas_sold + @amount WHERE gas_station_id = @gas_station_id";
+        Utils.Database.execute(sql, {['@gas_station_id'] = gasStationId, ['@stock'] = (query.stock - fuelAmount), ['@price'] = pricePaid, ['@amount'] = fuelAmount});
 
-		if isJerryCan then
-			local sql = "INSERT INTO `gas_station_balance` (gas_station_id,income,title,amount,date) VALUES (@gas_station_id,@income,@title,@amount,@date)";
-			Utils.Database.execute(sql, {['@gas_station_id'] = gasStationId, ['@income'] = 0, ['@title'] = Utils.translate('owned_gas_stations.balance_jerry_can'):format(fuelAmount), ['@amount'] = pricePaid, ['@date'] = os.time()});
-		else
-			local sql = "INSERT INTO `gas_station_balance` (gas_station_id,income,title,amount,date) VALUES (@gas_station_id,@income,@title,@amount,@date)";
-			Utils.Database.execute(sql, {['@gas_station_id'] = gasStationId, ['@income'] = 0, ['@title'] = Utils.translate('owned_gas_stations.balance_fuel'):format(fuelAmount), ['@amount'] = pricePaid, ['@date'] = os.time()});
-		end
-	end
-	return true
+        if isJerryCan then
+            local sql = "INSERT INTO `gas_station_balance` (gas_station_id,income,title,amount,date) VALUES (@gas_station_id,@income,@title,@amount,@date)";
+            Utils.Database.execute(sql, {['@gas_station_id'] = gasStationId, ['@income'] = 0, ['@title'] = Utils.translate('owned_gas_stations.balance_jerry_can'):format(fuelAmount), ['@amount'] = pricePaid, ['@date'] = os.time()});
+        else
+            local sql = "INSERT INTO `gas_station_balance` (gas_station_id,income,title,amount,date) VALUES (@gas_station_id,@income,@title,@amount,@date)";
+            Utils.Database.execute(sql, {['@gas_station_id'] = gasStationId, ['@income'] = 0, ['@title'] = Utils.translate('owned_gas_stations.balance_fuel'):format(fuelAmount), ['@amount'] = pricePaid, ['@date'] = os.time()});
+        end
+    end
+    return true
 end
 
 -----------------------------------------------------------------------------------------------------------------------------------------
