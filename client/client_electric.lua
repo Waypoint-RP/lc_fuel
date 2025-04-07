@@ -1,6 +1,6 @@
 -- Do not load anything here if electric is disabled
 if not Config.Electric.enabled then
-	return
+    return
 end
 
 local electricChargers = {}
@@ -35,54 +35,54 @@ end
 
 -- Thread to detect near electric chargers
 function createElectricMarkersThread()
-	CreateThread(function()
-		while true do
-			local ped = PlayerPedId()
-			local playerCoords = GetEntityCoords(ped)
-			local pump, pumpModel = GetClosestPump(playerCoords, true)
+    CreateThread(function()
+        while true do
+            local ped = PlayerPedId()
+            local playerCoords = GetEntityCoords(ped)
+            local pump, pumpModel = GetClosestPump(playerCoords, true)
 
-			while pump and pump > 0 and #(playerCoords - GetEntityCoords(pump)) < 2.0 do
-				playerCoords = GetEntityCoords(ped)
-				if not mainUiOpen and not DoesEntityExist(fuelNozzle) then
-					Utils.Markers.showHelpNotification(cachedTranslations.open_recharge, true)
-					if IsControlJustPressed(0,38) then
-						clientOpenUI(pump, pumpModel, true)
-					end
-				end
-				Wait(2)
-			end
-			Wait(1000)
-		end
-	end)
+            while pump and pump > 0 and #(playerCoords - GetEntityCoords(pump)) < 2.0 do
+                playerCoords = GetEntityCoords(ped)
+                if not mainUiOpen and not DoesEntityExist(fuelNozzle) then
+                    Utils.Markers.showHelpNotification(cachedTranslations.open_recharge, true)
+                    if IsControlJustPressed(0,38) then
+                        clientOpenUI(pump, pumpModel, true)
+                    end
+                end
+                Wait(2)
+            end
+            Wait(1000)
+        end
+    end)
 end
 
 function createElectricTargetsThread()
-	local pumpModels = {}  -- This will be the final list without duplicates
-	local seenModels = {}  -- This acts as a set to track unique values
+    local pumpModels = {}  -- This will be the final list without duplicates
+    local seenModels = {}  -- This acts as a set to track unique values
 
-	for _, chargerData in pairs(Config.Electric.chargersLocation) do
-		local model = chargerData.prop
-		if not seenModels[model] then
-			seenModels[model] = true  -- Mark model as seen
-			table.insert(pumpModels, model)  -- Insert only if it's not a duplicate
-		end
-	end
+    for _, chargerData in pairs(Config.Electric.chargersLocation) do
+        local model = chargerData.prop
+        if not seenModels[model] then
+            seenModels[model] = true  -- Mark model as seen
+            table.insert(pumpModels, model)  -- Insert only if it's not a duplicate
+        end
+    end
 
-	-- Pass unique models to the target creation function
-	Utils.Target.createTargetForModel(pumpModels, openElectricUICallback, Utils.translate('target.open_recharge'), "fas fa-plug", "#00a413",nil,nil,canOpenPumpUiTargetCallback)
+    -- Pass unique models to the target creation function
+    Utils.Target.createTargetForModel(pumpModels, openElectricUICallback, Utils.translate('target.open_recharge'), "fas fa-plug", "#00a413",nil,nil,canOpenPumpUiTargetCallback)
 
-	Utils.Target.createTargetForModel(pumpModels,returnNozzle,Utils.translate('target.return_nozzle'),"fas fa-plug","#a42100",nil,nil,canReturnNozzleTargetCallback)
+    Utils.Target.createTargetForModel(pumpModels,returnNozzle,Utils.translate('target.return_nozzle'),"fas fa-plug","#a42100",nil,nil,canReturnNozzleTargetCallback)
 end
 
 function openElectricUICallback()
-	local ped = PlayerPedId()
-	local playerCoords = GetEntityCoords(ped)
-	local pump, pumpModel = GetClosestPump(playerCoords, true)
-	if pump then
-		clientOpenUI(pump, pumpModel, true)
-	else
-		exports['lc_utils']:notify("error", Utils.translate("pump_not_found"))
-	end
+    local ped = PlayerPedId()
+    local playerCoords = GetEntityCoords(ped)
+    local pump, pumpModel = GetClosestPump(playerCoords, true)
+    if pump then
+        clientOpenUI(pump, pumpModel, true)
+    else
+        exports['lc_utils']:notify("error", Utils.translate("pump_not_found"))
+    end
 end
 
 -----------------------------------------------------------------------------------------------------------------------------------------
@@ -138,9 +138,9 @@ function groupChargersByStation()
 end
 
 AddEventHandler('onResourceStop', function(resourceName)
-	if GetCurrentResourceName() ~= resourceName then return end
+    if GetCurrentResourceName() ~= resourceName then return end
 
-	deleteAllElectricChargers()
+    deleteAllElectricChargers()
 end)
 
 function deleteAllElectricChargers()
