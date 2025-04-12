@@ -6,6 +6,7 @@ Lang["de"] = {
         stationStock: "{0} L",
         vehicleFuel: "{0} L",
         confirm: "Bestätigen",
+        vehicleFuelTooltip: "Aktueller Kraftstoff / Tankkapazität",
         fuelTypes: {
             regular: "Regulär",
             plus: "Plus",
@@ -66,5 +67,19 @@ Lang["de"] = {
         title: "AUFLADEN...",
         remainingTimeText: "VERBLEIBENDE ZEIT",
         remainingTimeValue: "{0} min {1} sek",
+    },
+    fuelConsumptionChart: {
+        title: "Kraftstoffverbrauchsdiagramm",
+        chartLabels: {
+            fuel: "Kraftstoff (%)",
+            speed: "Geschwindigkeit (km/h)",
+            consumption: "Verbrauch (L/s)",
+            shortSeconds: "{0}s",
+        },
+        footer: {
+            focus: "F3 zum Fokussieren umschalten",
+            toggleRecording: "Aufnahme umschalten",
+            recordsLength: "Verlaufslänge ({0}s)",
+        },
     },
 };

@@ -20,6 +20,7 @@ Lang['de'] = {
     ['not_enough_stock'] = "Diese Tankstelle verfügt nicht über genügend Lagerbestände, um diese Aktion durchzuführen",
     ['refuel_paid'] = "$%s bezahlt zum Tanken",
     ['returned_fuel'] = "Du hast %sL Kraftstoff zurückgegeben und $%s zurückerhalten",
+    ['returned_charge'] = "Du hast %skWh Ladung zurückgegeben und $%s zurückerhalten",
     ['jerry_can_paid'] = "$%s bezahlt für den Kanister",
     ['too_far_away'] = "Sie sind zu weit von der Zapfseule entfernt",
     ['vehicle_refueled'] = "Sie haben %sL ins Fahrzeug getankt",

@@ -6,6 +6,7 @@ Lang["tr"] = {
         stationStock: "{0} L",
         vehicleFuel: "{0} L",
         confirm: "ONAYLA",
+        vehicleFuelTooltip: "Mevcut Yakıt / Depo Kapasitesi",
         fuelTypes: {
             regular: "Normal",
             plus: "Plus",
@@ -66,5 +67,19 @@ Lang["tr"] = {
         title: "ŞARJ EDİLİYOR...",
         remainingTimeText: "KALAN SÜRE",
         remainingTimeValue: "{0} dk {1} sn",
+    },
+    fuelConsumptionChart: {
+        title: "Yakıt tüketim grafiği",
+        chartLabels: {
+            fuel: "Yakıt (%)",
+            speed: "Hız (km/s)",
+            consumption: "Tüketim (L/s)",
+            shortSeconds: "{0}s",
+        },
+        footer: {
+            focus: "Odağı değiştirmek için F3",
+            toggleRecording: "Kaydı Aç/Kapat",
+            recordsLength: "Geçmiş Uzunluğu ({0}s)",
+        },
     },
 };

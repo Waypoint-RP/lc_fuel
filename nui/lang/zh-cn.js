@@ -6,6 +6,7 @@ Lang["zh-cn"] = {
         stationStock: "{0} 升(L)",
         vehicleFuel: "{0} 升(L)",
         confirm: "确认",
+        vehicleFuelTooltip: "当前燃料 / 油箱容量",
         fuelTypes: {
             regular: "92号燃油",
             plus: "95号燃油",
@@ -66,5 +67,19 @@ Lang["zh-cn"] = {
         title: "充电中...",
         remainingTimeText: "剩余充电时间",
         remainingTimeValue: "{0} 分 {1} 秒",
+    },
+    fuelConsumptionChart: {
+        title: "燃料消耗图表",
+        chartLabels: {
+            fuel: "燃料 (%)",
+            speed: "速度 (km/h)",
+            consumption: "消耗 (L/s)",
+            shortSeconds: "{0}秒",
+        },
+        footer: {
+            focus: "按F3切换焦点",
+            toggleRecording: "切换录制",
+            recordsLength: "历史长度（{0}秒）",
+        },
     },
 };

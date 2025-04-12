@@ -68,4 +68,18 @@ Lang["en"] = {
         remainingTimeText: "REMAINING TIME",
         remainingTimeValue: "{0} min {1} sec",
     },
+    fuelConsumptionChart: {
+        title: "Fuel consumption chart",
+        chartLabels: {
+            fuel: "Fuel (%)",
+            speed: "Speed (km/h)",
+            consumption: "Consumption (L/s)",
+            shortSeconds: "{0}s",
+        },
+        footer: {
+            focus: "F3 to toggle focus",
+            toggleRecording: "Toggle Recording",
+            recordsLength: "History Length ({0}s)",
+        },
+    },
 };

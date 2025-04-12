@@ -6,6 +6,7 @@ Lang["fr"] = {
         stationStock: "{0} L",
         vehicleFuel: "{0} L",
         confirm: "CONFIRMER",
+        vehicleFuelTooltip: "Carburant actuel / Capacité du réservoir",
         fuelTypes: {
             regular: "Ordinaire",
             plus: "Plus",
@@ -66,5 +67,19 @@ Lang["fr"] = {
         title: "CHARGE EN COURS...",
         remainingTimeText: "TEMPS RESTANT",
         remainingTimeValue: "{0} min {1} sec",
+    },
+    fuelConsumptionChart: {
+        title: "Graphique de consommation de carburant",
+        chartLabels: {
+            fuel: "Carburant (%)",
+            speed: "Vitesse (km/h)",
+            consumption: "Consommation (L/s)",
+            shortSeconds: "{0}s",
+        },
+        footer: {
+            focus: "F3 pour basculer le focus",
+            toggleRecording: "Activer/Désactiver l’enregistrement",
+            recordsLength: "Durée de l’historique ({0}s)",
+        },
     },
 };

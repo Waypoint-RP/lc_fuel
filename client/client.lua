@@ -8,6 +8,13 @@ fuelRope = 0
 currentPump = 0
 JERRY_CAN_HASH = 883325847
 
+-- Fuel chart variables
+fuelConsumptionData = {}
+isFuelConsumptionChartOpen = false
+isRecording = true
+chartTimestamps = {15, 30, 60, 90, 120, 150, 180}
+chartTimestampsIndex = 2
+
 -- Local variables
 local fuelDecor = "_FUEL_LEVEL"
 local currentConsumption = 0.0
@@ -47,6 +54,10 @@ function createFuelConsumptionThread()
                     HandleFuelConsumption(vehicle, currentVehicleFuelType)
                 end
             else
+                if isFuelConsumptionChartOpen then
+                    closeFuelConsumptionChartUI()
+                end
+                fuelConsumptionData = {}
                 currentVehicleFuelType = "default"
                 currentVehicle = nil
                 fuelSynced = false
@@ -92,6 +103,11 @@ function HandleFuelConsumption(vehicle, fuelType)
 
     -- Write the new fuel % back
     SetFuel(vehicle, newFuelLevel)
+
+    -- Store data for chart
+    if Config.FuelConsumptionChart.enabled then
+        storeDataForChart(vehicle, newFuelLevel, currentConsumption)
+    end
 
     validateDieselFuelMismatch(vehicle, fuelType)
 end
@@ -185,6 +201,16 @@ RegisterNUICallback('post', function(body, cb)
 
         if body.event == "close" then
             closeUI()
+        elseif body.event == "closeFuelConsumptionChartUI" then
+            closeFuelConsumptionChartUI()
+        elseif body.event == "removeFocusFuelConsumptionChartUI" then
+            SetNuiFocus(false,false)
+        elseif body.event == "startRecordingGraph" then
+            isRecording = true
+        elseif body.event == "stopRecordingGraph" then
+            isRecording = false
+        elseif body.event == "changeRecordingIndexGraph" then
+            chartTimestampsIndex = body.data + 1
         elseif body.event == "notify" then
             exports['lc_utils']:notify(body.data.type,body.data.msg)
         elseif body.event == "changeVehicleFuelType" then

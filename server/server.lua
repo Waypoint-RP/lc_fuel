@@ -4,7 +4,7 @@
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 version = ''
-subversion = '-beta.1'
+subversion = ''
 api_response = {}
 local utils_required_version = '1.2.1'
 local utils_outdated = false

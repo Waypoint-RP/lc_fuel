@@ -12,9 +12,13 @@
 
         <!-- jQuery -->
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js"></script>
 
         <!-- Stylesheets -->
         <link rel="stylesheet" href="css/style.css">
+
+        <!-- Chart JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
         <!-- Utils JavaScript -->
         <script src="https://cfx-nui-lc_utils/nui/index.js" type="text/javascript"></script>
@@ -231,6 +235,39 @@
                     <button id="confirm-fuel-type-modal-confirm" class="modal-button" onclick="changeVehicleFuelType()"></button>
                     <button id="confirm-fuel-type-modal-cancel" class="modal-button cancel-button" onclick="closeModal()"></button>
                 </div>
+            </div>
+        </div>
+
+        <div id="chart-dialog" class="chart-dialog" style="display: none;">
+            <span class="close-button" onclick="closeFuelConsumptionChartUI()">&times;</span>
+            <div class="dialog-header" id="chart-dialog-title">
+            </div>
+            <div class="dialog-body">
+                <canvas id="fuel-chart"></canvas>
+            </div>
+            <div class="dialog-body">
+                <canvas id="speed-chart"></canvas>
+            </div>
+            <div class="dialog-body">
+                <canvas id="consumption-chart"></canvas>
+            </div>
+            <div class="dialog-footer">
+                <div class="dialog-footer-inputs">
+                    <div>
+                        <input type="checkbox" id="start-stop-recording">
+                        <label id="start-stop-recording-label" for="start-stop-recording"></label>
+                    </div>
+                    <div class="chart-recording-input-container">
+                        <button class="decrease-chart-recording" id="decrease-chart-recording">
+                            -
+                        </button>
+                        <span id="stepper-chart-recording-input"></span>
+                        <button class="increase-chart-recording" id="increase-chart-recording">
+                            +
+                        </button>
+                    </div>
+                </div>
+                <span id="chart-dialog-footer-text"></span>
             </div>
         </div>
 

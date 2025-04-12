@@ -6,6 +6,7 @@ Lang["ja"] = {
         stationStock: "{0} L",
         vehicleFuel: "{0} L",
         confirm: "確認",
+        vehicleFuelTooltip: "現在の燃料 / タンク容量",
         fuelTypes: {
             regular: "レギュラー",
             plus: "プラス",
@@ -66,5 +67,19 @@ Lang["ja"] = {
         title: "充電中・・・",
         remainingTimeText: "残り時間",
         remainingTimeValue: "{0} 分 {1} 秒",
+    },
+    fuelConsumptionChart: {
+        title: "燃料消費チャート",
+        chartLabels: {
+            fuel: "燃料 (%)",
+            speed: "速度 (km/h)",
+            consumption: "消費量 (L/s)",
+            shortSeconds: "{0}秒",
+        },
+        footer: {
+            focus: "F3でフォーカス切替",
+            toggleRecording: "記録の切り替え",
+            recordsLength: "履歴の長さ ({0}秒)",
+        },
     },
 };

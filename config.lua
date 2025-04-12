@@ -10,6 +10,14 @@ Config.NozzleProps = {			-- Props used in the script
 }
 Config.ReturnNozzleRefund = true -- The user gets refunded when returning nozzle to the pump with some remaining unused fuel. The refund is proportional to the unused fuel amount
 
+-- Config settings for the informative fuel consumption chart dialog
+Config.FuelConsumptionChart = {
+    enabled = true,             -- Enable/disable this dialog
+    command = "fuel_chart",     -- Command to open the dialog
+    focusShortcut = "F3",       -- Shortcut to set the UI focus to the dialog
+    position = "left",          -- Positions to initially open the dialog [left|rigth]
+}
+
 -- JerryCan settings
 Config.JerryCan = {
     enabled = true,				-- Enable/disable jerry cans purchase

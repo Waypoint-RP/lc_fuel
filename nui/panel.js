@@ -2,6 +2,13 @@ let currentPumpData;
 let selectedFuelType;
 let fuelTypeWarnSent;
 
+// Fuel Consumption Chart Dialog
+let fuelChart, speedChart, consumptionChart;
+let toggleChartFocusShortcut;
+let chartTimestampsIndex;
+let chartTimestamps;
+let isRecording;
+
 window.addEventListener("message", async function(event) {
     const item = event.data;
     if (item.data) {
@@ -130,6 +137,26 @@ window.addEventListener("message", async function(event) {
     if (item.hideRefuelDisplay) {
         $("#refuel-display").fadeOut(200);
         $("#recharge-display").fadeOut(200);
+    }
+    if (item.showFuelConsumptionChart) {
+        toggleChartFocusShortcut = item.focusShortcut;
+        chartTimestampsIndex = item.chartTimestampsIndex - 1;
+        chartTimestamps = item.chartTimestamps;
+        isRecording = item.isRecording;
+
+        createFuelConsumptionChartObject();
+        openFuelConsumptionChart();
+        updateFuelConsumptionChart(item.fuelConsumptionData);
+        setFuelConsumptionChartPosition(item.position);
+    }
+    if (item.updateFuelConsumptionChart) {
+        updateFuelConsumptionChart(item.fuelConsumptionData);
+    }
+    if (item.hideFuelConsumptionChart) {
+        $("#chart-dialog").fadeOut();
+        fuelChart.destroy();
+        speedChart.destroy();
+        consumptionChart.destroy();
     }
 });
 
@@ -354,6 +381,175 @@ function calculateTimeToRecharge() {
     }
 }
 
+/*===================
+	CHART DIALOG
+===================*/
+
+function openFuelConsumptionChart() {
+    const $dialog = $("#chart-dialog");
+
+    $("#chart-dialog-title").text(Utils.translate("fuelConsumptionChart.title"));
+    $("#chart-dialog-footer-text").text(Utils.translate("fuelConsumptionChart.footer.focus"));
+    $("#stepper-chart-recording-input").text(Utils.translate("fuelConsumptionChart.footer.recordsLength").format(chartTimestamps[chartTimestampsIndex]));
+    $("#start-stop-recording-label").text(Utils.translate("fuelConsumptionChart.footer.toggleRecording"));
+    $("#start-stop-recording").prop("checked", isRecording);
+
+    $dialog.css({
+        right: "",
+        bottom: "",
+        display: "flex",
+    }).fadeIn();
+
+    $dialog.draggable({
+        handle: ".dialog-header",
+    }).resizable({
+        minHeight: 450,
+        minWidth: 300,
+        maxHeight: $(window).height()*0.8,
+        maxWidth: $(window).width()*0.8,
+    });
+    speedChart.resize();
+    consumptionChart.resize();
+    fuelChart.resize();
+}
+
+function setFuelConsumptionChartPosition(position) {
+    const $dialog = $("#chart-dialog");
+    const windowWidth = $(window).width();
+    const dialogWidth = $dialog.outerWidth();
+
+    let top = 10;
+    let left;
+
+    // Horizontal position
+    if (position === "left") {
+        left = 10;
+    } else {
+        left = windowWidth - dialogWidth - 10;
+    }
+
+    $dialog.css({
+        top: `${top}px`,
+        left: `${left}px`,
+    });
+
+}
+
+function updateFuelConsumptionChart(fuelConsumptionData) {
+    const labels = [];
+    const fuel = [];
+    const speed = [];
+    const consumption = [];
+
+    for (let i = 0; i < fuelConsumptionData.length; i++) {
+        labels.push(Utils.translate("fuelConsumptionChart.chartLabels.shortSeconds").format(i));
+        fuel.push(fuelConsumptionData[i].fuel);
+        speed.push(fuelConsumptionData[i].speed);
+        consumption.push(fuelConsumptionData[i].consumption);
+    }
+    labels.reverse();
+
+    if (fuelChart && speedChart && consumptionChart) {
+        fuelChart.data.labels = speedChart.data.labels = consumptionChart.data.labels = labels;
+        fuelChart.data.datasets[0].data = fuel;
+        speedChart.data.datasets[0].data = speed;
+        consumptionChart.data.datasets[0].data = consumption;
+
+        fuelChart.update();
+        speedChart.update();
+        consumptionChart.update();
+    }
+}
+
+function createFuelConsumptionChartObject() {
+    // eslint-disable-next-line no-undef
+    Chart.defaults.color = "rgba(218, 218, 218, 0.73)";
+
+    const dummyLabels = Array.from({ length: 30 }, (_, i) => `${i}`);
+
+    const baseOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        elements: { point: { radius: 0 } },
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+            legend: {
+                position: "bottom",
+                labels: { boxWidth: 3, boxHeight: 3 },
+            },
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+            },
+        },
+    };
+
+    // Fuel Chart
+    // eslint-disable-next-line no-undef
+    fuelChart = new Chart(document.getElementById("fuel-chart"), {
+        type: "line",
+        data: {
+            labels: dummyLabels,
+            datasets: [{
+                label: Utils.translate("fuelConsumptionChart.chartLabels.fuel"),
+                data: [],
+                borderColor: "#FFD800",
+                cubicInterpolationMode: "monotone",
+            }],
+        },
+        options: {
+            ...baseOptions,
+            scales: {
+                y: { ...baseOptions.scales.y, suggestedMax: 100, title: { display: true, text: Utils.translate("fuelConsumptionChart.chartLabels.fuel") } },
+            },
+        },
+    });
+
+    // Speed Chart
+    // eslint-disable-next-line no-undef
+    speedChart = new Chart(document.getElementById("speed-chart"), {
+        type: "line",
+        data: {
+            labels: dummyLabels,
+            datasets: [{
+                label: Utils.translate("fuelConsumptionChart.chartLabels.speed"),
+                data: [],
+                borderColor: "#0026FF",
+                cubicInterpolationMode: "monotone",
+            }],
+        },
+        options: {
+            ...baseOptions,
+            scales: {
+                y: { ...baseOptions.scales.y, suggestedMax: 140, title: { display: true, text: Utils.translate("fuelConsumptionChart.chartLabels.speed") } },
+            },
+        },
+    });
+
+    // Consumption Chart
+    // eslint-disable-next-line no-undef
+    consumptionChart = new Chart(document.getElementById("consumption-chart"), {
+        type: "line",
+        data: {
+            labels: dummyLabels,
+            datasets: [{
+                label: Utils.translate("fuelConsumptionChart.chartLabels.consumption"),
+                data: [],
+                borderColor: "#7F0000",
+                cubicInterpolationMode: "monotone",
+            }],
+        },
+        options: {
+            ...baseOptions,
+            scales: {
+                y: { ...baseOptions.scales.y, suggestedMax: 0.4, title: { display: true, text: Utils.translate("fuelConsumptionChart.chartLabels.consumption") } },
+            },
+        },
+    });
+}
+
+
 /*=================
 	LISTENERS
 =================*/
@@ -369,10 +565,22 @@ $(document).on("keydown", function(event) {
     // Handle press of Esc key
     if (event.key === "Escape" || event.keyCode === 27) {
         // Check if the modal is open by checking if it's visible
-        if ($(".modal").is(":visible")) {
+        if ($("#chart-dialog").is(":visible")) {
+            closeFuelConsumptionChartUI();
+        } else if ($(".modal").is(":visible")) {
             closeModal();
         } else {
             closeUI();
+        }
+    }
+    if (event.key === toggleChartFocusShortcut
+        || event.key === "w" || event.key === "W"
+        || event.key === "a" || event.key === "A"
+        || event.key === "d" || event.key === "D"
+        || event.key === "s" || event.key === "S") {
+        // Check if the modal is open by checking if it's visible
+        if ($("#chart-dialog").is(":visible")) {
+            removeFocusFuelConsumptionChartUI();
         }
     }
 });
@@ -432,6 +640,31 @@ $(document).ready(function() {
             $input.val(0);
         }
     });
+
+    // Handle chart buttons
+    $("#start-stop-recording").change(function() {
+        if ($(this).is(":checked")) {
+            startRecordingGraph();
+        } else {
+            stopRecordingGraph();
+        }
+    });
+
+    $("#increase-chart-recording").click(function() {
+        if (chartTimestampsIndex < chartTimestamps.length - 1) {
+            chartTimestampsIndex++;
+            $("#stepper-chart-recording-input").text(Utils.translate("fuelConsumptionChart.footer.recordsLength").format(chartTimestamps[chartTimestampsIndex]));
+            changeRecordingIndexGraph();
+        }
+    });
+
+    $("#decrease-chart-recording").click(function() {
+        if (chartTimestampsIndex > 0) {
+            chartTimestampsIndex--;
+            $("#stepper-chart-recording-input").text(Utils.translate("fuelConsumptionChart.footer.recordsLength").format(chartTimestamps[chartTimestampsIndex]));
+            changeRecordingIndexGraph();
+        }
+    });
 });
 
 
@@ -441,4 +674,24 @@ $(document).ready(function() {
 
 function closeUI(){
     Utils.post("close","");
+}
+
+function stopRecordingGraph(){
+    Utils.post("stopRecordingGraph","");
+}
+
+function startRecordingGraph(){
+    Utils.post("startRecordingGraph","");
+}
+
+function changeRecordingIndexGraph(){
+    Utils.post("changeRecordingIndexGraph",chartTimestampsIndex);
+}
+
+function closeFuelConsumptionChartUI(){
+    Utils.post("closeFuelConsumptionChartUI","");
+}
+
+function removeFocusFuelConsumptionChartUI(){
+    Utils.post("removeFocusFuelConsumptionChartUI","");
 }

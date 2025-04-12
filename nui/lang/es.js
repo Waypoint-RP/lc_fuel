@@ -6,6 +6,7 @@ Lang["es"] = {
         stationStock: "{0} L",
         vehicleFuel: "{0} L",
         confirm: "CONFIRMAR",
+        vehicleFuelTooltip: "Combustible actual / Capacidad del tanque",
         fuelTypes: {
             regular: "Sin plomo",
             plus: "Plus",
@@ -66,5 +67,19 @@ Lang["es"] = {
         title: "CARGANDO...",
         remainingTimeText: "TIEMPO RESTANTE",
         remainingTimeValue: "{0} min {1} seg",
+    },
+    fuelConsumptionChart: {
+        title: "Gráfico de consumo de combustible",
+        chartLabels: {
+            fuel: "Combustible (%)",
+            speed: "Velocidad (km/h)",
+            consumption: "Consumo (L/s)",
+            shortSeconds: "{0}s",
+        },
+        footer: {
+            focus: "F3 para alternar enfoque",
+            toggleRecording: "Alternar grabación",
+            recordsLength: "Duración del historial ({0}s)",
+        },
     },
 };
