@@ -5,6 +5,7 @@ local vehicleAttachedToNozzle = nil
 local remainingFuelToRefuel = 0
 local currentFuelTypePurchased = nil
 local distanceToCap, distanceToPump = math.maxinteger, math.maxinteger
+local litersDeductedEachTick = 0.5
 
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- Refuelling
@@ -105,7 +106,8 @@ function returnNozzle()
         deleteRopeAndNozzleProp()
 
         if Config.ReturnNozzleRefund then
-            TriggerServerEvent('lc_fuel:returnNozzle', remainingFuelToRefuel)
+            local isElectric = Utils.Table.contains({"electricnormal", "electricfast"}, currentFuelTypePurchased)
+            TriggerServerEvent('lc_fuel:returnNozzle', remainingFuelToRefuel, isElectric)
         end
     end
 end
@@ -120,7 +122,7 @@ function executeRefuelAction(isFromJerryCan, closestVehicle, closestCapPos, clos
     -- Change the fuel tick if its electric charging
     if fuelTypePurchased == "electricfast" then
         isElectric = true
-        refuelTick = Config.Electric.chargeTypes.fast.time * 1000 / 2 -- Divide by 2 because each tick adds 0.5%.
+        refuelTick = Config.Electric.chargeTypes.fast.time * 1000 / 2 -- Divide by 2 because each tick adds 0.5kWh.
     end
     if fuelTypePurchased == "electricnormal" then
         isElectric = true
@@ -157,38 +159,35 @@ function executeRefuelAction(isFromJerryCan, closestVehicle, closestCapPos, clos
                 refuelingThread = CreateThread(function()
                     local vehicleToRefuel = closestVehicle
                     local startingFuel = GetFuel(vehicleToRefuel) -- Get vehicle fuel level
-
-                    -- WIP
-                    -- local vehicleHash = GetEntityModel(vehicleToRefuel)
-                    local vehicleTankSize = 100 -- Config.TankSizesHash[vehicleHash] or Config.DefaultTankSize
-                    -- end WIP
+                    local vehicleTankSize = getVehicleTankSize(vehicleToRefuel)
 
                     local currentFuel = startingFuel
                     -- Loop keep happening while the player has not canceled, while the fuelNozzle exists and while the ped still has jerry can in hands
                     while isRefuelling and (DoesEntityExist(fuelNozzle) or (isFromJerryCan and GetSelectedPedWeapon(ped) == JERRY_CAN_HASH)) do
                         currentFuel = GetFuel(vehicleToRefuel)
-                        local fuelToAdd = 0.5 -- Add 0.5% each tick
-                        if currentFuel + fuelToAdd > vehicleTankSize then
+                        local percentageOfFuelToAdd = calculateFuelToAddPercentage(vehicleTankSize) -- Add 0.5L each tick, but the % is proportional to the vehicle tank
+                        if currentFuel + percentageOfFuelToAdd > 100 then
                             -- Increase the vehicle fuel level
-                            fuelToAdd = vehicleTankSize - currentFuel
+                            percentageOfFuelToAdd = 100 - currentFuel
                         end
-                        if remainingFuelToRefuel < fuelToAdd then
+                        if remainingFuelToRefuel < litersDeductedEachTick then
                             -- Break when the user has used all the fuel he paid for
                             break
                         end
-                        if fuelToAdd <= 0.1 then
+                        if percentageOfFuelToAdd <= 0.1 then
                             -- Break when the vehicle tank is full
                             exports['lc_utils']:notify("info", Utils.translate("vehicle_tank_full"))
                             break
                         end
                         -- Decrease the purchased fuel amount and increase the vehicle fuel level
-                        remainingFuelToRefuel = remainingFuelToRefuel - fuelToAdd
-                        currentFuel = currentFuel + fuelToAdd
+                        remainingFuelToRefuel = remainingFuelToRefuel - litersDeductedEachTick
+                        currentFuel = currentFuel + percentageOfFuelToAdd
                         SetFuel(vehicleToRefuel, currentFuel)
                         SendNUIMessage({
                             showRefuelDisplay = true,
                             remainingFuelAmount = remainingFuelToRefuel,
-                            currentVehicleTank = currentFuel,
+                            currentVehicleTankSize = vehicleTankSize,
+                            currentDisplayFuelAmount = getVehicleDisplayFuelAmount(currentFuel, vehicleTankSize),
                             isElectric = isElectric,
                             fuelTypePurchased = fuelTypePurchased
                         })
@@ -202,9 +201,9 @@ function executeRefuelAction(isFromJerryCan, closestVehicle, closestCapPos, clos
                         vehicleAttachedToNozzle = nil
                     end
                     if isElectric then
-                        exports['lc_utils']:notify("success", Utils.translate("vehicle_recharged"):format(Utils.Math.round(currentFuel - startingFuel, 1)))
+                        exports['lc_utils']:notify("success", Utils.translate("vehicle_recharged"):format(Utils.Math.round(getVehicleDisplayFuelAmount(currentFuel, vehicleTankSize) - getVehicleDisplayFuelAmount(startingFuel, vehicleTankSize), 1)))
                     else
-                        exports['lc_utils']:notify("success", Utils.translate("vehicle_refueled"):format(Utils.Math.round(currentFuel - startingFuel, 1)))
+                        exports['lc_utils']:notify("success", Utils.translate("vehicle_refueled"):format(Utils.Math.round(getVehicleDisplayFuelAmount(currentFuel, vehicleTankSize) - getVehicleDisplayFuelAmount(startingFuel, vehicleTankSize), 1)))
                     end
 
                     -- Stop refuelling
@@ -228,6 +227,12 @@ function executeRefuelAction(isFromJerryCan, closestVehicle, closestCapPos, clos
         exports['lc_utils']:notify("error", Utils.translate("incompatible_fuel"))
     end
 end
+
+function calculateFuelToAddPercentage(totalVolumeLiters)
+    local percentage = (litersDeductedEachTick / totalVolumeLiters) * 100
+    return percentage
+end
+
 
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- Markers

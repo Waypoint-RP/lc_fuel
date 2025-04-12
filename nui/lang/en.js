@@ -6,6 +6,7 @@ Lang["en"] = {
         stationStock: "{0} L",
         vehicleFuel: "{0} L",
         confirm: "CONFIRM",
+        vehicleFuelTooltip: "Current Fuel / Tank Capacity",
         fuelTypes: {
             regular: "Regular",
             plus: "Plus",

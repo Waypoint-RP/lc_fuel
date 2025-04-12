@@ -233,31 +233,59 @@ Config.FuelConsumptionPerFuelType = {
     diesel = 1.0,
 }
 
+-- Fuel tank sizes (in liters) per vehicle class
+Config.FuelTankSizePerClass = {
+    [0] = 45,  -- Compacts
+    [1] = 60,  -- Sedans
+    [2] = 75,  -- SUVs
+    [3] = 55,  -- Coupes
+    [4] = 70,  -- Muscle
+    [5] = 65,  -- Sports Classics
+    [6] = 60,  -- Sports
+    [7] = 70,  -- Super
+    [8] = 15,  -- Motorcycles
+    [9] = 80,  -- Off-road
+    [10] = 150, -- Industrial
+    [11] = 120, -- Utility
+    [12] = 90,  -- Vans
+    [13] = 0,   -- Cycles
+    [14] = 200, -- Boats
+    [15] = 600, -- Helicopters
+    [16] = 800, -- Planes
+    [17] = 80,  -- Service
+    [18] = 90,  -- Emergency
+    [19] = 120, -- Military
+    [20] = 300, -- Commercial
+    [21] = 500, -- Trains
+    [22] = 50,  -- Open-wheel
+}
+
 -- Fuel consumption multiplier per vehicle class
--- Lower values means more economic
+-- Lower values mean better fuel economy
 Config.FuelConsumptionPerClass = {
-    [0] = 0.6, -- Compacts
-    [1] = 0.9, -- Sedans
-    [2] = 1.1, -- SUVs
-    [3] = 0.8, -- Coupes
-    [4] = 1.2, -- Muscle
-    [5] = 1.2, -- Sports Classics
-    [6] = 1.1, -- Sports
-    [7] = 1.2, -- Super
-    [8] = 0.4, -- Motorcycles
-    [9] = 1.3, -- Off-road
-    [10] = 1.9, -- Industrial
-    [11] = 1.7, -- Utility
-    [12] = 1.6, -- Vans
+    [0] = 0.5,  -- Compacts
+    [1] = 0.7,  -- Sedans
+    [2] = 1.0,  -- SUVs
+    [3] = 0.6,  -- Coupes
+    [4] = 1.3,  -- Muscle
+    [5] = 1.1,  -- Sports Classics
+    [6] = 1.2,  -- Sports
+    [7] = 1.4,  -- Super
+    [8] = 0.3,  -- Motorcycles
+    [9] = 1.2,  -- Off-road
+    [10] = 2.0, -- Industrial
+    [11] = 1.6, -- Utility
+    [12] = 1.5, -- Vans
     [13] = 0.0, -- Cycles
-    [14] = 1.0, -- Boats
-    [15] = 1.0, -- Helicopters
-    [16] = 1.0, -- Planes
-    [17] = 1.0, -- Service
-    [18] = 1.0, -- Emergency
-    [19] = 1.0, -- Military
-    [20] = 1.8, -- Commercial
-    [21] = 1.0, -- Trains
+    [14] = 1.1, -- Boats
+    [15] = 2.5, -- Helicopters
+    [16] = 4.0, -- Planes
+    [17] = 1.3, -- Service
+    [18] = 1.4, -- Emergency
+    [19] = 2.0, -- Military
+    [20] = 2.2, -- Commercial
+    [21] = 3.0, -- Trains
+    [22] = 1.5, -- Open-wheel
 }
 
 -- Vehicle fuel usage per RPM

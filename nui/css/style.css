@@ -31,6 +31,7 @@ body {
 .gas-pump-values-container {
     display: grid;
     grid-template-columns: 110px 274px 224.18px 186.52px 110px;
+    white-space: nowrap;
 }
 
 .digital-text {
@@ -367,11 +368,11 @@ body {
 
 .refuel-display-container {
     margin-bottom: 10vh;
-    padding: 30px;
+    padding: 30px 40px;
     background-image: url('../images/gas_refuel_display.png');
     background-repeat: no-repeat;
     background-position: center;
-    width: 193px;
+    width: 205px;
     height: 108px;
     background-size: 100%;
 }

@@ -20,6 +20,7 @@ Lang['en'] = {
     ['not_enough_stock'] = "This gas station don't have enough stock to perform this action",
     ['refuel_paid'] = "Paid $%s for this refuel",
     ['returned_fuel'] = "You've returned %sL of fuel and received back $%s",
+    ['returned_charge'] = "You've returned %skWh of fuel and received back $%s",
     ['jerry_can_paid'] = "Paid $%s for this jerry can",
     ['too_far_away'] = "You are too far from the pump",
     ['vehicle_refueled'] = "You refueled %sL in the vehicle",

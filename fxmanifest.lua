@@ -39,14 +39,6 @@ files {
 	"nui/fonts/Technology.woff",
 }
 
-exports {
-	"GetFuel",
-	"SetFuel",
-	-- Just another way to call the exports in case someone does it like this...
-	"getFuel",
-	"setFuel",
-}
-
 dependency "lc_utils"
 provides 'LegacyFuel'
 

@@ -4,7 +4,7 @@
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 version = ''
-subversion = ''
+subversion = '-beta.1'
 api_response = {}
 local utils_required_version = '1.2.1'
 local utils_outdated = false
@@ -50,11 +50,11 @@ local fuelPurchased = {}
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 RegisterServerEvent("lc_fuel:serverOpenUI")
-AddEventHandler("lc_fuel:serverOpenUI",function(isElectric, pumpModel, vehicleFuel, vehiclePlate)
+AddEventHandler("lc_fuel:serverOpenUI",function(isElectric, pumpModel, vehicleFuel, vehicleTankSize, vehiclePlate)
     local source = source
     Wrapper(source,function(user_id)
         local gasStationId = getCurrentGasStationId(source)
-        serverOpenUI(source, isElectric, pumpModel, gasStationId, vehicleFuel, vehiclePlate)
+        serverOpenUI(source, isElectric, pumpModel, gasStationId, vehicleFuel, vehicleTankSize, vehiclePlate)
     end)
 end)
 
@@ -101,7 +101,7 @@ end)
 
 
 RegisterServerEvent("lc_fuel:returnNozzle")
-AddEventHandler("lc_fuel:returnNozzle",function(remainingFuel)
+AddEventHandler("lc_fuel:returnNozzle",function(remainingFuel, isElectric)
     local source = source
     Wrapper(source,function(user_id)
 
@@ -118,7 +118,7 @@ AddEventHandler("lc_fuel:returnNozzle",function(remainingFuel)
             return
         end
 
-        local amountToReturn = remainingFuel * fuelPurchased[source].pricePerLiter
+        local amountToReturn = math.floor(remainingFuel * fuelPurchased[source].pricePerLiter)
 
         if amountToReturn > fuelPurchased[source].finalPrice or remainingFuel > fuelPurchased[source].fuelAmount then
             print("User "..user_id.." initially purchased "..fuelPurchased[source].fuelAmount.."L of fuel but now is returning "..remainingFuel.."L. Is this user trying to glitch something?")
@@ -127,7 +127,11 @@ AddEventHandler("lc_fuel:returnNozzle",function(remainingFuel)
             return
         end
 
-        TriggerClientEvent("lc_fuel:Notify", source, "success", Utils.translate('returned_fuel'):format(Utils.numberFormat(remainingFuel), Utils.numberFormat(amountToReturn)))
+        if isElectric then
+            TriggerClientEvent("lc_fuel:Notify", source, "success", Utils.translate('returned_charge'):format(Utils.Math.round(remainingFuel, 1), amountToReturn))
+        else
+            TriggerClientEvent("lc_fuel:Notify", source, "success", Utils.translate('returned_fuel'):format(Utils.Math.round(remainingFuel, 1), amountToReturn))
+        end
         Utils.Framework.giveAccountMoney(source, amountToReturn, fuelPurchased[source].account)
 
         fuelPurchased[source] = nil
@@ -186,7 +190,7 @@ AddEventHandler("lc_fuel:confirmJerryCanPurchase",function(data)
     end)
 end)
 
-function serverOpenUI(source, isElectric, pumpModel, gasStationId, vehicleFuel, vehiclePlate)
+function serverOpenUI(source, isElectric, pumpModel, gasStationId, vehicleFuel, vehicleTankSize, vehiclePlate)
     local stationData = getStationData(gasStationId)
     local discount = getPlayerDiscountAmount(source)
 
@@ -195,6 +199,7 @@ function serverOpenUI(source, isElectric, pumpModel, gasStationId, vehicleFuel, 
         stationStock = stationData.stationStock,
         currentFuelType = getVehicleFuelType(vehiclePlate),
         vehicleFuel = vehicleFuel or 0,
+        vehicleTankSize = vehicleTankSize or 100,
         cashBalance = Utils.Framework.getPlayerAccountMoney(source, Config.Accounts.account1),
         bankBalance = Utils.Framework.getPlayerAccountMoney(source, Config.Accounts.account2),
         jerryCan = Config.JerryCan,
@@ -347,12 +352,12 @@ function getStationDataFromConfig()
             electricnormal = Config.Electric.chargeTypes.normal.price,
         },
         stationStock = {
-            regular = Config.DefaultValues.fuelStock.regular and 100 or 0,
-            plus = Config.DefaultValues.fuelStock.plus and 100 or 0,
-            premium = Config.DefaultValues.fuelStock.premium and 100 or 0,
-            diesel = Config.DefaultValues.fuelStock.diesel and 100 or 0,
-            electricfast = Config.Electric.chargeTypes.fast.stock and 100 or 0,
-            electricnormal = Config.Electric.chargeTypes.normal.stock and 100 or 0,
+            regular = Config.DefaultValues.fuelStock.regular and 1000 or 0,
+            plus = Config.DefaultValues.fuelStock.plus and 1000 or 0,
+            premium = Config.DefaultValues.fuelStock.premium and 1000 or 0,
+            diesel = Config.DefaultValues.fuelStock.diesel and 1000 or 0,
+            electricfast = Config.Electric.chargeTypes.fast.stock and 1000 or 0,
+            electricnormal = Config.Electric.chargeTypes.normal.stock and 1000 or 0,
         }
     }
 end

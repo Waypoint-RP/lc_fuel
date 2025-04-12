@@ -56,25 +56,42 @@ function createFuelConsumptionThread()
 end
 
 function HandleFuelConsumption(vehicle, fuelType)
+    -- If no decorator exists, set a random fuel %
     if not DecorExistOn(vehicle, fuelDecor) then
         SetFuel(vehicle, math.random(200, 800) / 10)
     elseif not fuelSynced then
+        -- Sync once
         SetFuel(vehicle, GetFuel(vehicle))
         fuelSynced = true
     end
 
+    -- If engine is off, do nothing
     if not GetIsVehicleEngineRunning(vehicle) then
         return
     end
 
+    -- Turns engine off if have no fuel
     local currentFuelLevel = GetVehicleFuelLevel(vehicle)
     if currentFuelLevel <= 0.0 then
         SetVehicleEngineOn(vehicle, false, true, false)
         return
     end
 
+    -- Get the vehicle's actual tank size in liters
+    local tankSize = getVehicleTankSize(vehicle)
+
+    -- Base consumption from config and RPM
     currentConsumption = Config.FuelUsage[Utils.Math.round(GetVehicleCurrentRpm(vehicle), 1)] * (Config.FuelConsumptionPerClass[GetVehicleClass(vehicle)] or 1.0) * (Config.FuelConsumptionPerFuelType[fuelType] or 1.0) / 10
-    SetFuel(vehicle, currentFuelLevel - currentConsumption)
+
+    -- Scale consumption according to tank size.
+    -- A smaller tank will lose percentage faster; a bigger tank slower.
+    local scaledConsumption = currentConsumption * (100 / tankSize)
+
+    -- Subtract from the current fuel % 
+    local newFuelLevel = currentFuelLevel - scaledConsumption
+
+    -- Write the new fuel % back
+    SetFuel(vehicle, newFuelLevel)
 
     validateDieselFuelMismatch(vehicle, fuelType)
 end
@@ -101,8 +118,7 @@ function clientOpenUI(pump, pumpModel, isElectricPump)
     local playerCoords = GetEntityCoords(ped)
 
     closestVehicleToPump = GetClosestVehicle(playerCoords)
-    local closestVehicleHash = GetEntityModel(closestVehicleToPump)
-    local isElectricVehicle = Config.Electric.vehiclesListHash[closestVehicleHash]
+    local isElectricVehicle = IsVehicleElectric(closestVehicleToPump)
     if not (isElectricVehicle and isElectricPump) and not (not isElectricVehicle and  not isElectricPump) then
         -- Reset the near vehicle to 0 when it does not match the pump type (only allows electric vehicle in electric chargers and gas vehicles in gas pumps)
         closestVehicleToPump = 0
@@ -114,7 +130,9 @@ function clientOpenUI(pump, pumpModel, isElectricPump)
         -- Load the nearest vehicle fuel and plate (fuel type)
         local vehicleFuel = GetFuel(closestVehicleToPump)
         local vehiclePlate = GetVehicleNumberPlateText(closestVehicleToPump)
-        TriggerServerEvent("lc_fuel:serverOpenUI", isElectricPump, pumpModel, vehicleFuel, vehiclePlate)
+        local vehicleTankSize = getVehicleTankSize(closestVehicleToPump)
+        local vehicleDisplayFuelAmount = getVehicleDisplayFuelAmount(vehicleFuel, vehicleTankSize)
+        TriggerServerEvent("lc_fuel:serverOpenUI", isElectricPump, pumpModel, vehicleDisplayFuelAmount, vehicleTankSize, vehiclePlate)
     else
         -- Allow the user to open the UI even without vehicles nearby
         TriggerServerEvent("lc_fuel:serverOpenUI", isElectricPump, pumpModel)
@@ -211,6 +229,7 @@ function GetFuel(vehicle)
     end
     return DecorGetFloat(vehicle, fuelDecor)
 end
+exports('GetFuel', GetFuel)
 
 function SetFuel(vehicle, fuel)
     if not DoesEntityExist(vehicle) then
@@ -229,15 +248,18 @@ function SetFuel(vehicle, fuel)
     SetVehicleFuelLevel(vehicle, fuel + 0.0)
     DecorSetFloat(vehicle, fuelDecor, GetVehicleFuelLevel(vehicle))
 end
+exports('SetFuel', SetFuel)
 
 -- Just another way to call the exports in case someone does it like this...
 function getFuel(vehicle)
-    GetFuel(vehicle)
+    return GetFuel(vehicle)
 end
+exports('getFuel', getFuel)
 
 function setFuel(vehicle, fuel)
     SetFuel(vehicle, fuel)
 end
+exports('setFuel', setFuel)
 
 -- Alias LegacyFuel's exports to point to our lc_fuel functions:
 AddEventHandler('__cfx_export_LegacyFuel_SetFuel', function(setCB)
@@ -289,6 +311,15 @@ function changeVehicleFuelType(vehicle, fuelType)
     else
         exports['lc_utils']:notify("error",Utils.translate("vehicle_not_found"))
     end
+end
+
+function getVehicleDisplayFuelAmount(currentFuel, tankSize)
+    local displayFuelAmount = currentFuel * tankSize / 100
+    return displayFuelAmount
+end
+
+function getVehicleTankSize(vehicle)
+    return Config.FuelTankSizePerClass[GetVehicleClass(vehicle)] or 100
 end
 
 function GetPumpOffset(pump)
@@ -399,7 +430,7 @@ function IsVehicleBlacklisted(vehicle)
     if vehicle and vehicle ~= 0 then
         local vehicleHash = GetEntityModel(vehicle)
         -- Blacklist electric vehicles if electric recharge is disabled
-        if not Config.Electric.enabled and Config.Electric.vehiclesListHash[vehicleHash] then
+        if not Config.Electric.enabled and IsVehicleElectric(vehicle) then
             return true
         end
 
@@ -417,6 +448,17 @@ function IsVehicleDiesel(vehicle)
         local vehicleHash = GetEntityModel(vehicle)
         -- Check if the vehicle is in the diesel list
         if Config.DieselVehiclesHash[vehicleHash] then
+            return true
+        end
+    end
+    return false
+end
+
+function IsVehicleElectric(vehicle)
+    if vehicle and vehicle ~= 0 then
+        local vehicleHash = GetEntityModel(vehicle)
+        -- Check if the vehicle is in the diesel list
+        if Config.Electric.vehiclesListHash[vehicleHash] then
             return true
         end
     end

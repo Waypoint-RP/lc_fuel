@@ -71,7 +71,8 @@ window.addEventListener("message", async function(event) {
             }
             fuelTypeWarnSent = false;
             changeSelectedFuelType(currentPumpData.currentFuelType);
-            $(".vehicle-fuel").text(Utils.translate("pumpInterface.vehicleFuel").format(Utils.numberFormat(currentPumpData.vehicleFuel, 2)));
+            $(".vehicle-fuel").text(Utils.translate("pumpInterface.vehicleFuel").format(`${Utils.numberFormat(currentPumpData.vehicleFuel, 1)} / ${Utils.numberFormat(currentPumpData.vehicleTankSize, 0)}`));
+            $(".vehicle-fuel").attr("data-tooltip", Utils.translate("pumpInterface.vehicleFuelTooltip"));
             $(".bank-balance").text(Utils.currencyFormat(currentPumpData.bankBalance, 2));
             $(".cash-balance").text(Utils.currencyFormat(currentPumpData.cashBalance, 2));
 
@@ -110,15 +111,16 @@ window.addEventListener("message", async function(event) {
     }
     if (item.showRefuelDisplay) {
         if (item.isElectric) {
+            let percentageOfTankFilled = (item.currentDisplayFuelAmount / item.currentVehicleTankSize) * 100;
             $("#recharge-display-title").text(Utils.translate("rechargerDisplay.title"));
-            $("#recharge-display-battery-level-span").text(`${Utils.numberFormat(item.currentVehicleTank, 0)}%`);
-            $("#recharge-display-battery-liquid").css("width", `${item.currentVehicleTank}%`);
+            $("#recharge-display-battery-level-span").text(`${Utils.numberFormat(percentageOfTankFilled, 0)}%`);
+            $("#recharge-display-battery-liquid").css("width", `${percentageOfTankFilled}%`);
             $("#recharge-display-remaining-time-title").text(Utils.translate("rechargerDisplay.remainingTimeText"));
-            updateRechargeDisplay(item.remainingFuelAmount, item.fuelTypePurchased);
+            updateRechargeDisplay((item.currentVehicleTankSize - item.currentDisplayFuelAmount), item.fuelTypePurchased);
             $("#recharge-display").fadeIn(200);
         } else {
             $("#refuel-display-pump-value").text(Utils.numberFormat(item.remainingFuelAmount, 2));
-            $("#refuel-display-car-value").text(Utils.numberFormat(item.currentVehicleTank, 2));
+            $("#refuel-display-car-value").text(`${Utils.numberFormat(item.currentDisplayFuelAmount, 2)}/${Utils.numberFormat(item.currentVehicleTankSize, 2)}`);
             $(".refuel-display-liters").text(Utils.translate("pumpRefuelDisplay.liters"));
             $("#refuel-display-car-label").text(Utils.translate("pumpRefuelDisplay.carTank"));
             $("#refuel-display-pump-label").text(Utils.translate("pumpRefuelDisplay.remaining"));
@@ -253,8 +255,8 @@ function updateFuelAmountDisplay(setToMax = false) {
     }
 
     // Don't let it purchase more L than the vehicle can hold in the tank
-    if (setToMax || (!isNaN(value) && value > 100 - currentPumpData.vehicleFuel)) {
-        value = Math.floor(100 - currentPumpData.vehicleFuel);
+    if (setToMax || (!isNaN(value) && value > currentPumpData.vehicleTankSize - currentPumpData.vehicleFuel)) {
+        value = Math.floor(currentPumpData.vehicleTankSize - currentPumpData.vehicleFuel);
     }
 
     $input.val(value + " L");
@@ -264,7 +266,7 @@ function updateFuelAmountDisplay(setToMax = false) {
 function chargerTypeContinue() {
     let chargerType = getSelectedChargerType();
     if (chargerType && (chargerType == "fast" || chargerType == "normal")) {
-        $("#electric-charger-amount-input").val(Math.floor(100 - currentPumpData.vehicleFuel));
+        $("#electric-charger-amount-input").val(Math.floor(currentPumpData.vehicleTankSize - currentPumpData.vehicleFuel));
         calculateTimeToRecharge();
         $("#electric-charger-amount-type-selected").text(Utils.translate("electricInterface.chargerAmount.typeSelected").format(Utils.translate(`electricInterface.chargerType.${chargerType}.title`)));
         $(".electric-charger-type-container").css("display", "none");
@@ -324,6 +326,11 @@ function calculateTimeToRecharge() {
         currentValue = 0;
     }
 
+    if (currentValue > 1000) {
+        currentValue = 1000;
+        $input.val(currentValue);
+    }
+
     let chargerType = getSelectedChargerType();
     if (chargerType && (chargerType == "fast" || chargerType == "normal")) {
         let timeToRecharge = currentValue * currentPumpData.electric.chargeTypes[chargerType].time;
@@ -334,7 +341,7 @@ function calculateTimeToRecharge() {
 
         $("#electric-time-to-recharge-value").text(Utils.translate("electricInterface.chargerAmount.timeToRechargeValue").format(Utils.numberFormat(timeToRechargeMinutes, 0), Utils.numberFormat(timeToRechargeSeconds, 0)));
 
-        let newWidthPercentage = currentPumpData.vehicleFuel + currentValue;
+        let newWidthPercentage = ((currentPumpData.vehicleFuel / currentPumpData.vehicleTankSize) * 100) + ((currentValue / currentPumpData.vehicleTankSize) * 100);
         $("#electric-amount-progress-bar").css("width", newWidthPercentage + "%");
 
         if (newWidthPercentage > 100) {
@@ -375,14 +382,14 @@ $(document).ready(function() {
     $(".refuel-add").click(function() {
         let $input = $("#input-fuel-amount");
         let currentValue = parseInt($input.val()) || 0;
-        if (currentValue < Math.floor(100 - currentPumpData.vehicleFuel)) {
+        if (currentValue < Math.floor(currentPumpData.vehicleTankSize - currentPumpData.vehicleFuel)) {
             $input.val((currentValue + 1) + " L");
         }
     });
     $(".recharge-add").click(function() {
         let $input = $("#electric-charger-amount-input");
         let currentValue = parseInt($input.val()) || 0;
-        if (currentValue < Math.floor(100 - currentPumpData.vehicleFuel)) {
+        if (currentValue < Math.floor(currentPumpData.vehicleTankSize - currentPumpData.vehicleFuel)) {
             $input.val((currentValue + 1));
             calculateTimeToRecharge();
         }
