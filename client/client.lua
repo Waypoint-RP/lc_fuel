@@ -345,7 +345,11 @@ function getVehicleDisplayFuelAmount(currentFuel, tankSize)
 end
 
 function getVehicleTankSize(vehicle)
-    return Config.FuelTankSizePerClass[GetVehicleClass(vehicle)] or 100
+    local vehicleHash = GetEntityModel(vehicle)
+    if Config.FuelTankSize.perVehicleHash[vehicleHash] then
+        return Config.FuelTankSize.perVehicleHash[vehicleHash]
+    end
+    return Config.FuelTankSize.perClass[GetVehicleClass(vehicle)] or 100
 end
 
 function GetPumpOffset(pump)
@@ -562,6 +566,10 @@ function convertConfigVehiclesDisplayNameToHash()
     Config.DieselVehiclesHash = {}
     for _, value in pairs(Config.DieselVehicles) do
         Config.DieselVehiclesHash[joaat(value)] = true
+    end
+    Config.FuelTankSize.perVehicleHash = {}
+    for key, value in pairs(Config.FuelTankSize.perVehicle) do
+        Config.FuelTankSize.perVehicleHash[joaat(key)] = value
     end
     Config.CustomVehicleParametersHash = {}
     Utils.Table.deepMerge(Config.HiddenCustomVehicleParameters, Config.CustomVehicleParameters)

@@ -543,7 +543,7 @@ function createFuelConsumptionChartObject() {
         options: {
             ...baseOptions,
             scales: {
-                y: { ...baseOptions.scales.y, suggestedMax: 0.4, title: { display: true, text: Utils.translate("fuelConsumptionChart.chartLabels.consumption") } },
+                y: { ...baseOptions.scales.y, suggestedMax: 0.3, title: { display: true, text: Utils.translate("fuelConsumptionChart.chartLabels.consumption") } },
             },
         },
     });

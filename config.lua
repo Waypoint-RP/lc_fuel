@@ -241,31 +241,38 @@ Config.FuelConsumptionPerFuelType = {
     diesel = 1.0,
 }
 
--- Fuel tank sizes (in liters) per vehicle class
-Config.FuelTankSizePerClass = {
-    [0] = 45,  -- Compacts
-    [1] = 60,  -- Sedans
-    [2] = 75,  -- SUVs
-    [3] = 55,  -- Coupes
-    [4] = 70,  -- Muscle
-    [5] = 65,  -- Sports Classics
-    [6] = 60,  -- Sports
-    [7] = 70,  -- Super
-    [8] = 15,  -- Motorcycles
-    [9] = 80,  -- Off-road
-    [10] = 150, -- Industrial
-    [11] = 120, -- Utility
-    [12] = 90,  -- Vans
-    [13] = 0,   -- Cycles
-    [14] = 200, -- Boats
-    [15] = 600, -- Helicopters
-    [16] = 800, -- Planes
-    [17] = 80,  -- Service
-    [18] = 90,  -- Emergency
-    [19] = 120, -- Military
-    [20] = 300, -- Commercial
-    [21] = 500, -- Trains
-    [22] = 50,  -- Open-wheel
+-- Fuel tank sizes (in liters) per vehicle class and specific vehicles
+Config.FuelTankSize = {
+    -- Tank sizes by vehicle class: These apply to all vehicles in the specified class unless overridden by vehicle
+    perClass = {
+        [0] = 45,  -- Compacts
+        [1] = 60,  -- Sedans
+        [2] = 75,  -- SUVs
+        [3] = 55,  -- Coupes
+        [4] = 70,  -- Muscle
+        [5] = 65,  -- Sports Classics
+        [6] = 60,  -- Sports
+        [7] = 70,  -- Super
+        [8] = 15,  -- Motorcycles
+        [9] = 80,  -- Off-road
+        [10] = 150, -- Industrial
+        [11] = 120, -- Utility
+        [12] = 90,  -- Vans
+        [13] = 0,   -- Cycles
+        [14] = 200, -- Boats
+        [15] = 600, -- Helicopters
+        [16] = 800, -- Planes
+        [17] = 80,  -- Service
+        [18] = 90,  -- Emergency
+        [19] = 120, -- Military
+        [20] = 300, -- Commercial
+        [21] = 500, -- Trains
+        [22] = 50,  -- Open-wheel
+    },
+    -- Overrides for specific vehicles: These values take priority over the class-based value
+    perVehicle = {
+        ["panto"] = 40
+    }
 }
 
 -- Fuel consumption multiplier per vehicle class
