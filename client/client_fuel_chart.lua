@@ -40,10 +40,7 @@ if Config.FuelConsumptionChart.enabled then
 
             SendNUIMessage({
                 showFuelConsumptionChart = true,
-                chartTimestampsIndex = chartTimestampsIndex,
-                chartTimestamps = chartTimestamps,
                 isRecording = isRecording,
-                fuelConsumptionData = fuelConsumptionData,
                 position = Config.FuelConsumptionChart.position,
                 focusShortcut = Config.FuelConsumptionChart.focusShortcut,
             })
@@ -67,21 +64,14 @@ if Config.FuelConsumptionChart.enabled then
     end
 
     function storeDataForChart(vehicle, newFuelLevel, currentConsumption)
-        if not isRecording then return end
+        if not isRecording then 
+            updateFuelConsumptionChart({ fuel = nil, speed = nil, consumption = nil })
+            return
+         end
 
-        fuelConsumptionData = fuelConsumptionData or {}
         local speed = GetEntitySpeed(vehicle) * 3.6
-        table.insert(fuelConsumptionData, {
-            fuel = newFuelLevel,
-            consumption = currentConsumption,
-            speed = speed
-        })
-        -- Remove all excess entries from the beginning
-        while #fuelConsumptionData > chartTimestamps[chartTimestampsIndex] do
-            table.remove(fuelConsumptionData, 1)
-        end
         if isFuelConsumptionChartOpen then
-            updateFuelConsumptionChart(fuelConsumptionData)
+            updateFuelConsumptionChart({ fuel = newFuelLevel, speed = speed, consumption = currentConsumption })
         end
     end
 end

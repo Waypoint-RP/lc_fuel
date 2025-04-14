@@ -35,6 +35,7 @@ files {
 	"nui/lang/*",
 	"nui/ui.html",
 	"nui/panel.js",
+	"nui/scripts/*",
 	"nui/css/*",
 	"nui/images/*",
 	"nui/fonts/Technology.woff",

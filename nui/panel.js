@@ -5,8 +5,8 @@ let fuelTypeWarnSent;
 // Fuel Consumption Chart Dialog
 let fuelChart, speedChart, consumptionChart;
 let toggleChartFocusShortcut;
-let chartTimestampsIndex;
-let chartTimestamps;
+let chartTimestampsIndex = 1;
+let chartTimestamps = [ 15, 30, 60, 90, 120, 150, 180 ];
 let isRecording;
 
 window.addEventListener("message", async function(event) {
@@ -140,13 +140,10 @@ window.addEventListener("message", async function(event) {
     }
     if (item.showFuelConsumptionChart) {
         toggleChartFocusShortcut = item.focusShortcut;
-        chartTimestampsIndex = item.chartTimestampsIndex - 1;
-        chartTimestamps = item.chartTimestamps;
         isRecording = item.isRecording;
 
         createFuelConsumptionChartObject();
         openFuelConsumptionChart();
-        updateFuelConsumptionChart(item.fuelConsumptionData);
         setFuelConsumptionChartPosition(item.position);
     }
     if (item.updateFuelConsumptionChart) {
@@ -154,9 +151,9 @@ window.addEventListener("message", async function(event) {
     }
     if (item.hideFuelConsumptionChart) {
         $("#chart-dialog").fadeOut();
-        fuelChart.destroy();
-        speedChart.destroy();
-        consumptionChart.destroy();
+        // fuelChart.destroy();
+        // speedChart.destroy();
+        // consumptionChart.destroy();
     }
 });
 
@@ -432,53 +429,52 @@ function setFuelConsumptionChartPosition(position) {
         top: `${top}px`,
         left: `${left}px`,
     });
-
 }
 
-function updateFuelConsumptionChart(fuelConsumptionData) {
-    const labels = [];
-    const fuel = [];
-    const speed = [];
-    const consumption = [];
 
-    for (let i = 0; i < fuelConsumptionData.length; i++) {
-        labels.push(Utils.translate("fuelConsumptionChart.chartLabels.shortSeconds").format(i));
-        fuel.push(fuelConsumptionData[i].fuel);
-        speed.push(fuelConsumptionData[i].speed);
-        consumption.push(fuelConsumptionData[i].consumption);
-    }
-    labels.reverse();
+function updateFuelConsumptionChart(latestData) {
+    const now = Date.now();
 
     if (fuelChart && speedChart && consumptionChart) {
-        fuelChart.data.labels = speedChart.data.labels = consumptionChart.data.labels = labels;
-        fuelChart.data.datasets[0].data = fuel;
-        speedChart.data.datasets[0].data = speed;
-        consumptionChart.data.datasets[0].data = consumption;
-
-        fuelChart.update();
-        speedChart.update();
-        consumptionChart.update();
+        fuelChart.data.datasets[0].data.push({ x: now, y: latestData.fuel });
+        speedChart.data.datasets[0].data.push({ x: now, y: latestData.speed });
+        consumptionChart.data.datasets[0].data.push({ x: now, y: latestData.consumption });
     }
+    fuelChart.update("quiet");
+    speedChart.update("quiet");
+    consumptionChart.update("quiet");
 }
 
 function createFuelConsumptionChartObject() {
-    // eslint-disable-next-line no-undef
-    Chart.defaults.color = "rgba(218, 218, 218, 0.73)";
+    if (fuelChart || speedChart || consumptionChart) { return; }
 
-    const dummyLabels = Array.from({ length: 30 }, (_, i) => `${i}`);
+    Chart.defaults.color = "rgba(218, 218, 218, 0.73)";
+    Chart.overrides.line.spanGaps = false;
 
     const baseOptions = {
         responsive: true,
         maintainAspectRatio: false,
         elements: { point: { radius: 0 } },
+        animation: false,
         interaction: { mode: "index", intersect: false },
         plugins: {
             legend: {
                 position: "bottom",
                 labels: { boxWidth: 3, boxHeight: 3 },
             },
+            streaming: {
+                frameRate: 10,
+            },
         },
         scales: {
+            x: {
+                type: "realtime",
+                realtime: {
+                    duration: 30000,
+                    refresh: 1000,
+                    delay: 1000,
+                },
+            },
             y: {
                 beginAtZero: true,
             },
@@ -486,11 +482,10 @@ function createFuelConsumptionChartObject() {
     };
 
     // Fuel Chart
-    // eslint-disable-next-line no-undef
+
     fuelChart = new Chart(document.getElementById("fuel-chart"), {
         type: "line",
         data: {
-            labels: dummyLabels,
             datasets: [{
                 label: Utils.translate("fuelConsumptionChart.chartLabels.fuel"),
                 data: [],
@@ -501,17 +496,21 @@ function createFuelConsumptionChartObject() {
         options: {
             ...baseOptions,
             scales: {
-                y: { ...baseOptions.scales.y, suggestedMax: 100, title: { display: true, text: Utils.translate("fuelConsumptionChart.chartLabels.fuel") } },
+                ...baseOptions.scales,
+                y: {
+                    ...baseOptions.scales.y,
+                    suggestedMax: 100,
+                    title: { display: true, text: Utils.translate("fuelConsumptionChart.chartLabels.fuel") },
+                },
             },
         },
     });
 
     // Speed Chart
-    // eslint-disable-next-line no-undef
+
     speedChart = new Chart(document.getElementById("speed-chart"), {
         type: "line",
         data: {
-            labels: dummyLabels,
             datasets: [{
                 label: Utils.translate("fuelConsumptionChart.chartLabels.speed"),
                 data: [],
@@ -522,17 +521,21 @@ function createFuelConsumptionChartObject() {
         options: {
             ...baseOptions,
             scales: {
-                y: { ...baseOptions.scales.y, suggestedMax: 140, title: { display: true, text: Utils.translate("fuelConsumptionChart.chartLabels.speed") } },
+                ...baseOptions.scales,
+                y: {
+                    ...baseOptions.scales.y,
+                    suggestedMax: 140,
+                    title: { display: true, text: Utils.translate("fuelConsumptionChart.chartLabels.speed") },
+                },
             },
         },
     });
 
     // Consumption Chart
-    // eslint-disable-next-line no-undef
+
     consumptionChart = new Chart(document.getElementById("consumption-chart"), {
         type: "line",
         data: {
-            labels: dummyLabels,
             datasets: [{
                 label: Utils.translate("fuelConsumptionChart.chartLabels.consumption"),
                 data: [],
@@ -543,7 +546,12 @@ function createFuelConsumptionChartObject() {
         options: {
             ...baseOptions,
             scales: {
-                y: { ...baseOptions.scales.y, suggestedMax: 0.3, title: { display: true, text: Utils.translate("fuelConsumptionChart.chartLabels.consumption") } },
+                ...baseOptions.scales,
+                y: {
+                    ...baseOptions.scales.y,
+                    suggestedMax: 0.3,
+                    title: { display: true, text: Utils.translate("fuelConsumptionChart.chartLabels.consumption") },
+                },
             },
         },
     });
@@ -677,14 +685,23 @@ function closeUI(){
 }
 
 function stopRecordingGraph(){
+    fuelChart.options.scales.x.realtime.pause = true;
+    speedChart.options.scales.x.realtime.pause = true;
+    consumptionChart.options.scales.x.realtime.pause = true;
     Utils.post("stopRecordingGraph","");
 }
 
 function startRecordingGraph(){
+    fuelChart.options.scales.x.realtime.pause = false;
+    speedChart.options.scales.x.realtime.pause = false;
+    consumptionChart.options.scales.x.realtime.pause = false;
     Utils.post("startRecordingGraph","");
 }
 
 function changeRecordingIndexGraph(){
+    fuelChart.options.scales.x.realtime.duration = chartTimestamps[chartTimestampsIndex] * 1000;
+    speedChart.options.scales.x.realtime.duration = chartTimestamps[chartTimestampsIndex] * 1000;
+    consumptionChart.options.scales.x.realtime.duration = chartTimestamps[chartTimestampsIndex] * 1000;
     Utils.post("changeRecordingIndexGraph",chartTimestampsIndex);
 }
 

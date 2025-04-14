@@ -9,11 +9,8 @@ currentPump = 0
 JERRY_CAN_HASH = 883325847
 
 -- Fuel chart variables
-fuelConsumptionData = {}
 isFuelConsumptionChartOpen = false
 isRecording = true
-chartTimestamps = {15, 30, 60, 90, 120, 150, 180}
-chartTimestampsIndex = 2
 
 -- Local variables
 local fuelDecor = "_FUEL_LEVEL"
@@ -57,7 +54,6 @@ function createFuelConsumptionThread()
                 if isFuelConsumptionChartOpen then
                     closeFuelConsumptionChartUI()
                 end
-                fuelConsumptionData = {}
                 currentVehicleFuelType = "default"
                 currentVehicle = nil
                 fuelSynced = false
@@ -209,8 +205,6 @@ RegisterNUICallback('post', function(body, cb)
             isRecording = true
         elseif body.event == "stopRecordingGraph" then
             isRecording = false
-        elseif body.event == "changeRecordingIndexGraph" then
-            chartTimestampsIndex = body.data + 1
         elseif body.event == "notify" then
             exports['lc_utils']:notify(body.data.type,body.data.msg)
         elseif body.event == "changeVehicleFuelType" then
