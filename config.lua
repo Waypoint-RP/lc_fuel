@@ -259,14 +259,14 @@ Config.FuelTankSize = {
         [11] = 120, -- Utility
         [12] = 90,  -- Vans
         [13] = 0,   -- Cycles
-        [14] = 200, -- Boats
-        [15] = 600, -- Helicopters
-        [16] = 800, -- Planes
+        [14] = 180, -- Boats
+        [15] = 300, -- Helicopters
+        [16] = 500, -- Planes
         [17] = 80,  -- Service
         [18] = 90,  -- Emergency
         [19] = 120, -- Military
         [20] = 300, -- Commercial
-        [21] = 500, -- Trains
+        [21] = 400, -- Trains
         [22] = 50,  -- Open-wheel
     },
     -- Overrides for specific vehicles: These values take priority over the class-based value

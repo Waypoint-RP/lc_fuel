@@ -174,7 +174,7 @@ function executeRefuelAction(isFromJerryCan, closestVehicle, closestCapPos, clos
                             -- Break when the user has used all the fuel he paid for
                             break
                         end
-                        if percentageOfFuelToAdd <= 0.1 then
+                        if percentageOfFuelToAdd <= 0.01 then
                             -- Break when the vehicle tank is full
                             exports['lc_utils']:notify("info", Utils.translate("vehicle_tank_full"))
                             break
