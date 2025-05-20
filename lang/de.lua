@@ -35,5 +35,7 @@ Lang['de'] = {
         ['balance_jerry_can'] = "Benzinkanister verkauft (%s Liter)",
         ['balance_fuel'] = "Treibstoff verkauft (%s Liter)",
         ['balance_electric'] = "Elektrische Ladung verkauft (%s kWh)",
+        ['refund_fuel'] = "Kraftstoff erstattet (%s Liter)",
+        ['refund_electric'] = "Stromladung erstattet (%s kWh)",
     }
 }

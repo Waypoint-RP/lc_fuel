@@ -35,5 +35,7 @@ Lang['zh-cn'] = {
         ['balance_jerry_can'] = "便携式油桶销售量 (%s 升)",
         ['balance_fuel'] = "燃油销售总量 (%s 升)",
         ['balance_electric'] = "电能销售收入 (%s 千瓦时)",
+        ['refund_fuel'] = "燃料已退款（%s 升）",
+        ['refund_electric'] = "电力已退款（%s 千瓦时）",
     }
 }

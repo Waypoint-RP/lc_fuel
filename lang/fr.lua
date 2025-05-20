@@ -35,5 +35,7 @@ Lang['fr'] = {
         ['balance_jerry_can'] = "Bidon d'essence vendu (%s Litres)",
         ['balance_fuel'] = "Carburant vendu (%s Litres)",
         ['balance_electric'] = "Charge électrique vendue (%s kWh)",
+        ['refund_fuel'] = "Carburant remboursé (%s litres)",
+        ['refund_electric'] = "Recharge électrique remboursée (%s kWh)",
     }
 }
