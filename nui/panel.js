@@ -311,7 +311,7 @@ function chargerTypeContinue() {
 function chargerAmountContinue() {
     let $input = $("#electric-charger-amount-input");
     let currentValue = parseInt($input.val()) || 0;
-    let newWidthPercentage = currentPumpData.vehicleFuel + currentValue;
+    let newWidthPercentage = ((currentPumpData.vehicleFuel / currentPumpData.vehicleTankSize) * 100) + ((currentValue / currentPumpData.vehicleTankSize) * 100);
 
     if (currentValue <= 0 || newWidthPercentage > 100) {
         return;
