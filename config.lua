@@ -1,9 +1,12 @@
 Config = {}
 
-Config.EnablePumpRope = true	-- Enable/disable the pump rope
-Config.DefaultRopeLength = 7.5	-- Pump rope length
-Config.EnableHUD = false		-- Simple hud to show current fuel and consumption
-Config.RefuelTick = 300 		-- Time in ms to refuel 0.5L of fuel in the vehicle (lower values means faster refuel)
+Config.EnablePumpRope = true            -- Enable/disable the pump rope
+Config.DefaultRopeLength = 7.5          -- Pump rope length
+Config.EnableHUD = false                -- Simple hud to show current fuel and consumption
+Config.RefuelTick = 300                 -- Time in ms to refuel 0.5L of fuel in the vehicle (lower values means faster refuel)
+Config.FuelTypeCommand = "fuel_type"    -- Command to show the fuel type of the vehicle
+Config.SaveAllVehicleFuelTypes = true   -- true: Saves fuel type in database for all vehicles. false: Saves fuel type in database only for player-owned vehicles, ignoring NPC or other vehicles. The players can still change their fuel types, but it will not persist through server restarts.
+
 Config.NozzleProps = {			-- Props used in the script
     gas = "prop_cs_fuel_nozle",
     electric = "prop_eletricpistol",
@@ -17,9 +20,6 @@ Config.FuelConsumptionChart = {
     focusShortcut = "F3",       -- Shortcut to set the UI focus to the dialog
     position = "left",          -- Positions to initially open the dialog [left|rigth]
 }
-
-Config.FuelTypeCommand = "fuel_type" -- Command to show the fuel type of the vehicle
-
 -- JerryCan settings
 Config.JerryCan = {
     enabled = true,				-- Enable/disable jerry cans purchase

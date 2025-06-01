@@ -474,12 +474,15 @@ function setVehicleFuelType(plate, fuelType)
     end
 
     playerVehiclesFuelType[plate] = fuelType
-    local sql = [[
-        INSERT INTO `player_vehicles_fuel_type` (plate, fuelType)
-        VALUES (@plate, @fuelType)
-        ON DUPLICATE KEY UPDATE fuelType = @fuelType
-    ]];
-    Utils.Database.execute(sql, {['@plate'] = plate, ['@fuelType'] = fuelType})
+    -- Only store in database if the vehicle is in player vehicles table
+    if Config.SaveAllVehicleFuelTypes == true or (Utils.Framework.getVehicleOwner(Utils.Math.trim(plate)) ~= false or Utils.Framework.getVehicleOwner(plate) ~= false) then
+        local sql = [[
+            INSERT INTO `player_vehicles_fuel_type` (plate, fuelType)
+            VALUES (@plate, @fuelType)
+            ON DUPLICATE KEY UPDATE fuelType = @fuelType
+        ]];
+        Utils.Database.execute(sql, {['@plate'] = plate, ['@fuelType'] = fuelType})
+    end
 end
 
 function cacheplayerVehiclesFuelTypeType()
@@ -488,7 +491,7 @@ function cacheplayerVehiclesFuelTypeType()
     for _, value in pairs(queryData) do
         playerVehiclesFuelType[value.plate] = value.fuelType
     end
-    print("^2[lc_fuel] Fuel types successfully fetched from database^7")
+    print("^2[lc_fuel] #"..#queryData.." Fuel types successfully fetched from database^7")
 end
 
 function Wrapper(source,cb)
