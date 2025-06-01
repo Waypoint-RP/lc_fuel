@@ -469,8 +469,8 @@ end
 
 function setVehicleFuelType(plate, fuelType)
     if not isFuelTypeValid(fuelType) then
-        fuelType = "regular"
         print("Invalid fuel type ("..fuelType..") set to vehicle ("..plate..")")
+        fuelType = "regular"
     end
 
     playerVehiclesFuelType[plate] = fuelType

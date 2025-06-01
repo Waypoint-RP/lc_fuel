@@ -377,8 +377,11 @@ end)
 
 function SetFuelType(vehicle, fuelType)
     if not DoesEntityExist(vehicle) then
-        warn(("[setFuelType] Vehicle entity does not exist. Received: %s. This is usually caused by a misconfiguration in the export."):format(tostring(vehicle)))
+        warn(("[SetFuelType] Vehicle entity does not exist. Received: %s. This is usually caused by a misconfiguration in the export."):format(tostring(vehicle)))
         return
+    end
+    if not fuelType or fuelType == "nil" or fuelType == "" then
+        fuelType = dealWithDefaultFuelType(vehicle, "default")
     end
     TriggerServerEvent("lc_fuel:setVehicleFuelType", GetVehicleNumberPlateText(vehicle), fuelType)
 end
