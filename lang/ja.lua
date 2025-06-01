@@ -38,8 +38,12 @@ Lang['ja'] = {
         ['refund_fuel'] = "燃料が返金されました（%sリットル）",
         ['refund_electric'] = "電気充電が返金されました（%s kWh）",
     },
-    ['fuel_type'] = "燃料タイプ：",
-    ['diesel'] = "ディーゼル",
-    ['electric'] = "電気",
-    ['gasoline'] = "ガソリン"
+    ['fuel_types'] = {
+        ['type_title'] = "燃料の種類: %s",
+        ['electric'] = "電気",
+        ['regular'] = "レギュラー",
+        ['plus'] = "プラス",
+        ['premium'] = "プレミアム",
+        ['diesel'] = "ディーゼル",
+    },
 }

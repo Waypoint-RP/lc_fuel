@@ -38,8 +38,12 @@ Lang['tr'] = {
         ['refund_fuel'] = "Yakıt iade edildi (%s litre)",
         ['refund_electric'] = "Elektrik şarjı iade edildi (%s kWh)",
     },
-    ['fuel_type'] = "Yakıt Türü:",
-    ['diesel'] = "Dizel",
-    ['electric'] = "Elektrikli",
-    ['gasoline'] = "Benzin",
+    ['fuel_types'] = {
+        ['type_title'] = "Yakıt Türü: %s",
+        ['electric'] = "Elektrikli",
+        ['regular'] = "Normal",
+        ['plus'] = "Plus",
+        ['premium'] = "Premium",
+        ['diesel'] = "Dizel",
+    },
 }

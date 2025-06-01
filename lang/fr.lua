@@ -38,9 +38,12 @@ Lang['fr'] = {
         ['refund_fuel'] = "Carburant remboursé (%s litres)",
         ['refund_electric'] = "Recharge électrique remboursée (%s kWh)",
     },
-    ['fuel_type'] = "Type de carburant :",
-    ['diesel'] = "Diesel",
-    ['electric'] = "Électrique",
-    ['gasoline'] = "Essence",
-
+    ['fuel_types'] = {
+        ['type_title'] = "Type de carburant : %s",
+        ['electric'] = "Électrique",
+        ['regular'] = "Ordinaire",
+        ['plus'] = "Plus",
+        ['premium'] = "Premium",
+        ['diesel'] = "Diesel",
+    },
 }

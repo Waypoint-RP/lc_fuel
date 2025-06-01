@@ -38,8 +38,12 @@ Lang['en'] = {
         ['refund_fuel'] = "Fuel refunded (%s Liters)",
         ['refund_electric'] = "Electric charge refunded (%s kWh)",
     },
-    ['fuel_type'] = "Fuel Type:",
-    ['diesel'] = "Diesel",
-    ['electric'] = "Electric",
-    ['gasoline'] = "Gasoline",
+    ['fuel_types'] = {
+        ['type_title'] = "Fuel Type: %s",
+        ['electric'] = "Electric",
+        ['regular'] = "Regular",
+        ['plus'] = "Plus",
+        ['premium'] = "Premium",
+        ['diesel'] = "Diesel",
+    },
 }

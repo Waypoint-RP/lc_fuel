@@ -38,8 +38,12 @@ Lang['zh-cn'] = {
         ['refund_fuel'] = "燃料已退款（%s 升）",
         ['refund_electric'] = "电力已退款（%s 千瓦时）",
     },
-    ['fuel_type'] = "燃料类型：",
-    ['diesel'] = "柴油",
-    ['electric'] = "电动",
-    ['gasoline'] = "汽油",
+    ['fuel_types'] = {
+        ['type_title'] = "燃料类型：%s",
+        ['electric'] = "电动",
+        ['regular'] = "92号燃油",
+        ['plus'] = "95号燃油",
+        ['premium'] = "98号燃油",
+        ['diesel'] = "柴油",
+    },
 }

@@ -38,8 +38,12 @@ Lang['de'] = {
         ['refund_fuel'] = "Kraftstoff erstattet (%s Liter)",
         ['refund_electric'] = "Stromladung erstattet (%s kWh)",
     },
-    ['fuel_type'] = "Treibstoff:",
-    ['diesel'] = "Diesel",
-    ['electric'] = "Elektrisch",
-    ['gasoline'] = "Benzin",
+    ['fuel_types'] = {
+        ['type_title'] = "Kraftstoffart: %s",
+        ['electric'] = "Elektrisch",
+        ['regular'] = "Regulär",
+        ['plus'] = "Plus",
+        ['premium'] = "Premium",
+        ['diesel'] = "Diesel",
+    },
 }

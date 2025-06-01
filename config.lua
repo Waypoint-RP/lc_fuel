@@ -18,7 +18,7 @@ Config.FuelConsumptionChart = {
     position = "left",          -- Positions to initially open the dialog [left|rigth]
 }
 
-Config.FuelTypeCommand = "fueltype" -- Command to show the fuel type of the vehicle
+Config.FuelTypeCommand = "fuel_type" -- Command to show the fuel type of the vehicle
 
 -- JerryCan settings
 Config.JerryCan = {

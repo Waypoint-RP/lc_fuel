@@ -397,6 +397,8 @@ function dealWithDefaultFuelType(vehicle, fuelType)
     if fuelType == "default" then
         if IsVehicleDiesel(vehicle) then
             fuelType = "diesel"
+        elseif IsVehicleElectric(vehicle) then
+            fuelType = "electric"
         else
             fuelType = "regular"
         end

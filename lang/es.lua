@@ -38,8 +38,12 @@ Lang['es'] = {
         ['refund_fuel'] = "Combustible reembolsado (%s litros)",
         ['refund_electric'] = "Carga eléctrica reembolsada (%s kWh)",
     },
-    ['fuel_type'] = "Tipo de combustible:",
-    ['diesel'] = "Diésel",
-    ['electric'] = "Eléctrico",
-    ['gasoline'] = "Gasolina",
+    ['fuel_types'] = {
+        ['type_title'] = "Tipo de combustible: %s",
+        ['electric'] = "Eléctrico",
+        ['regular'] = "Sin plomo",
+        ['plus'] = "Plus",
+        ['premium'] = "Premium",
+        ['diesel'] = "Diésel",
+    },
 }
