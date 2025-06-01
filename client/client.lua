@@ -375,6 +375,20 @@ AddEventHandler('__cfx_export_LegacyFuel_GetFuel', function(setCB)
     setCB(GetFuel)
 end)
 
+function SetFuelType(vehicle, fuelType)
+    if not DoesEntityExist(vehicle) then
+        warn(("[setFuelType] Vehicle entity does not exist. Received: %s. This is usually caused by a misconfiguration in the export."):format(tostring(vehicle)))
+        return
+    end
+    TriggerServerEvent("lc_fuel:setVehicleFuelType", GetVehicleNumberPlateText(vehicle), fuelType)
+end
+exports('SetFuelType', SetFuelType)
+
+function setFuelType(vehicle, fuelType)
+    return SetFuelType(vehicle, fuelType)
+end
+exports('setFuelType', setFuelType)
+
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- Utils
 -----------------------------------------------------------------------------------------------------------------------------------------
