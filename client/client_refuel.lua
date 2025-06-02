@@ -256,10 +256,10 @@ function refuelLoop(isFromJerryCan)
     while DoesEntityExist(fuelNozzle) or (isFromJerryCan and GetSelectedPedWeapon(ped) == JERRY_CAN_HASH) do
         local waitTime = 200
         if closestCapPos then
-            distanceToCap = #(GetEntityCoords(ped) - vector3(closestCapPos.x,closestCapPos.y,closestCapPos.z + customVehicleParameters.nozzleOffset.up + 0.0))
+            distanceToCap = #(GetEntityCoords(ped) - vector3(closestCapPos.x,closestCapPos.y,closestCapPos.z))
             if distanceToCap < customVehicleParameters.distance + 0.0 and (not vehicleAttachedToNozzle or (vehicleAttachedToNozzle and DoesEntityExist(vehicleAttachedToNozzle) and vehicleAttachedToNozzle == closestVehicle)) then
                 waitTime = 1
-                Utils.Markers.drawText3D(closestCapPos.x,closestCapPos.y,closestCapPos.z + customVehicleParameters.nozzleOffset.up + 0.0, cachedTranslations.interact_with_vehicle)
+                Utils.Markers.drawText3D(closestCapPos.x,closestCapPos.y,closestCapPos.z, cachedTranslations.interact_with_vehicle)
                 if IsControlJustPressed(0, 38) and not inCooldown then
                     -- See which one the player is nearer. The fuel cap or fuel pump
                     if distanceToPump >= distanceToCap then
@@ -363,7 +363,27 @@ function getClosestVehicleVariables()
     if not closestCapPos then
         print("Cap not found for vehicle")
     end
-    return closestVehicle, closestCapPos, closestVehicleHash, customVehicleParameters
+
+    local finalWorldPos = getWorldPosFromOffset(closestVehicle, customVehicleParameters.nozzleOffset)
+
+    return closestVehicle, finalWorldPos, closestVehicleHash, customVehicleParameters
+end
+
+function getWorldPosFromOffset(vehicle, offset)
+    local closestCapPos = GetVehicleCapPos(vehicle)
+    local forwardVector, rightVector, upVector, _ = GetEntityMatrix(vehicle)
+
+    -- Adjust the offsets
+    local forwardOffset = forwardVector * offset.forward
+    local rightoffset = rightVector * offset.right
+    local upOffset = upVector * offset.up
+
+    -- Final world position of the nozzle point
+    return vector3(
+        closestCapPos.x + forwardOffset.x + rightoffset.x + upOffset.x,
+        closestCapPos.y + forwardOffset.y + rightoffset.y + upOffset.y,
+        closestCapPos.z + forwardOffset.z + rightoffset.z + upOffset.z
+    )
 end
 
 function terminateRefuelThread()

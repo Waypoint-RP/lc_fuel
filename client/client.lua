@@ -137,7 +137,7 @@ function createDebugNozzleOffsetThread()
                     local vehCoords = GetEntityCoords(vehicle)
 
                     -- Get vehicle's axis vectors
-                    local forwardVector, rightVector, upVector = GetEntityMatrix(vehicle)
+                    local _, rightVector, _ = GetEntityMatrix(vehicle)
 
                     -- Direction from vehicle to hit point
                     local directionToHit = hitCoords - vehCoords
@@ -155,21 +155,8 @@ function createDebugNozzleOffsetThread()
                         offset.right = offset.right - 0.07
                     end
 
-                    local boneWorldPos = GetVehicleCapPos(vehicle)
-
-                    -- local forwardVector, rightVector, upVector, _ = GetEntityMatrix(vehicle)
-
-                    -- Scale vectors by the local offset
-                    local forwardOffset = forwardVector * offset.forward
-                    local rightOffset = rightVector * offset.right
-                    local upOffset = upVector * offset.up
-
                     -- Final world position of the nozzle point
-                    local finalWorldPos = vector3(
-                        boneWorldPos.x + forwardOffset.x + rightOffset.x + upOffset.x,
-                        boneWorldPos.y + forwardOffset.y + rightOffset.y + upOffset.y,
-                        boneWorldPos.z + forwardOffset.z + rightOffset.z + upOffset.z
-                    )
+                    local finalWorldPos = getWorldPosFromOffset(vehicle, offset)
 
                     -- Draw a small marker at the computed position
                     DrawMarker(28, finalWorldPos.x, finalWorldPos.y, finalWorldPos.z + 0.05, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.03, 0.03, 0.03, 255, 0, 0, 180, false, true, 2, nil, nil, false)
