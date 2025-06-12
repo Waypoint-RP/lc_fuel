@@ -1,11 +1,11 @@
 Config = {}
 
-Config.EnablePumpRope = true            -- Enable/disable the pump rope
-Config.DefaultRopeLength = 7.5          -- Pump rope length
-Config.EnableHUD = false                -- Simple hud to show current fuel and consumption
-Config.RefuelTick = 300                 -- Time in ms to refuel 0.5L of fuel in the vehicle (lower values means faster refuel)
+Config.EnablePumpRope = true   -- Enable/disable the pump rope
+Config.DefaultRopeLength = 7.5 -- Pump rope length
+Config.EnableHUD = false       -- Simple hud to show current fuel and consumption
+Config.RefuelTick = 300        -- Time in ms to refuel 0.5L of fuel in the vehicle (lower values means faster refuel)
 Config.FuelTypeCommand = "fuel_type"    -- Command to show the fuel type of the vehicle
-Config.SaveAllVehicleFuelTypes = true   -- true: Saves fuel type in database for all vehicles. false: Saves fuel type in database only for player-owned vehicles, ignoring NPC or other vehicles. The players can still change their fuel types, but it will not persist through server restarts.
+Config.SaveAllVehicleFuelTypes = false   -- true: Saves fuel type in database for all vehicles. false: Saves fuel type in database only for player-owned vehicles, ignoring NPC or other vehicles. The players can still change their fuel types, but it will not persist through server restarts.
 
 Config.NozzleProps = {			-- Props used in the script
     gas = "prop_cs_fuel_nozle",
@@ -15,19 +15,20 @@ Config.ReturnNozzleRefund = true -- The user gets refunded when returning nozzle
 
 -- Config settings for the informative fuel consumption chart dialog
 Config.FuelConsumptionChart = {
-    enabled = true,             -- Enable/disable this dialog
-    command = "fuel_chart",     -- Command to open the dialog
-    focusShortcut = "F3",       -- Shortcut to set the UI focus to the dialog
-    position = "left",          -- Positions to initially open the dialog [left|rigth]
+    enabled = true,         -- Enable/disable this dialog
+    command = "fuel_chart", -- Command to open the dialog
+    focusShortcut = "F3",   -- Shortcut to set the UI focus to the dialog
+    position = "left",      -- Positions to initially open the dialog [left|rigth]
 }
+
 -- JerryCan settings
 Config.JerryCan = {
-    enabled = true,				-- Enable/disable jerry cans purchase
-    price = 300,				-- Price to purchase it
-    requiredStock = 10,			-- Amount of stock required in gas station to provide a jerry can
-    item = "weapon_petrolcan",	-- Jerry can inventory item
-    giveAsWeapon = true,		-- true: Give jerry can as weapon | false: Give jerry can as item
-    metadata = { ammo = 100 }	-- Item metadata (ATTENTION: Some inventories don't allow ammo to be sent via metadata. This means that changing the ammo here won't have any effect. Please check your inventory documentation)
+    enabled = true,            -- Enable/disable jerry cans purchase
+    price = 300,               -- Price to purchase it
+    requiredStock = 10,        -- Amount of stock required in gas station to provide a jerry can
+    item = "weapon_petrolcan", -- Jerry can inventory item
+    giveAsWeapon = true,       -- true: Give jerry can as weapon | false: Give jerry can as item
+    metadata = { ammo = 100 }  -- Item metadata (ATTENTION: Some inventories don't allow ammo to be sent via metadata. This means that changing the ammo here won't have any effect. Please check your inventory documentation)
 }
 
 -- Accounts the user can choose when purchasing fuel
@@ -38,8 +39,8 @@ Config.Accounts = {
 
 -- Players inside these jobs will receive the specified discounts
 Config.JobDiscounts = {
-    ["police"] = 90, 			-- The job name (NOT THE LABEL), and the discount amount in % this job will receive
-    ["ambulance"] = 80,
+    ["police"] = 50, -- The job name (NOT THE LABEL), and the discount amount in % this job will receive
+    ["ambulance"] = 50,
 }
 
 -- Config for not owned gas stations
@@ -63,11 +64,11 @@ Config.DefaultValues = {
 -- Config for linking the gas pumps to player owned gas stations
 -- ATTENTION: Only if you own lc_gas_stations (https://store.lixeirocharmoso.com/package/4942445)
 Config.PlayerOwnedGasStations = {
-    enabled = false,			-- Enable/disable retrieve fuel price and stock from player owned gas stations
-    gasStations = {				-- This list is the vector3 + radius of center of the gas pumps area, so the script can know which gas pump is from which gas station
-        ["gas_station_1"] = {								-- Gas station id (same from gas station script config)
-            vector = vector3(264.95, -1259.45, 29.14),		-- Center of the gas pumps area
-            radius = 30										-- Radius of the area (30 meters usually works fine, but larger gas stations may require a larger area)
+    enabled = false,                                   -- Enable/disable retrieve fuel price and stock from player owned gas stations
+    gasStations = {                                    -- This list is the vector3 + radius of center of the gas pumps area, so the script can know which gas pump is from which gas station
+        ["gas_station_1"] = {                          -- Gas station id (same from gas station script config)
+            vector = vector3(264.95, -1259.45, 29.14), -- Center of the gas pumps area
+            radius = 30                                -- Radius of the area (30 meters usually works fine, but larger gas stations may require a larger area)
         },
         ["gas_station_2"] = {
             vector = vector3(819.61, -1028.21, 26.40),
@@ -247,16 +248,16 @@ Config.FuelConsumptionPerFuelType = {
 Config.FuelTankSize = {
     -- Tank sizes by vehicle class: These apply to all vehicles in the specified class unless overridden by vehicle
     perClass = {
-        [0] = 45,  -- Compacts
-        [1] = 60,  -- Sedans
-        [2] = 75,  -- SUVs
-        [3] = 55,  -- Coupes
-        [4] = 70,  -- Muscle
-        [5] = 65,  -- Sports Classics
-        [6] = 60,  -- Sports
-        [7] = 70,  -- Super
-        [8] = 15,  -- Motorcycles
-        [9] = 80,  -- Off-road
+        [0] = 45,   -- Compacts
+        [1] = 60,   -- Sedans
+        [2] = 75,   -- SUVs
+        [3] = 55,   -- Coupes
+        [4] = 70,   -- Muscle
+        [5] = 65,   -- Sports Classics
+        [6] = 60,   -- Sports
+        [7] = 70,   -- Super
+        [8] = 15,   -- Motorcycles
+        [9] = 80,   -- Off-road
         [10] = 150, -- Industrial
         [11] = 120, -- Utility
         [12] = 90,  -- Vans
@@ -324,41 +325,45 @@ Config.FuelUsage = {
 -- Gas pump props and offset for the fuel rope
 Config.GasPumpProps = {
     {
-        prop = "prop_gas_pump_1d",	-- Prop name
-        ropeOffset = {				-- Rope attachment offset
-            forward = 0.0,			-- Forward/backward offset
-            right = 0.0,			-- Left/right offset
-            up = 2.3				-- Vertical offset
+        prop = "prop_gas_pump_1d", -- Prop name
+        ropeOffset = {             -- Rope attachment offset
+            forward = 0.0,         -- Forward/backward offset
+            right = 0.0,           -- Left/right offset
+            up = 2.3               -- Vertical offset
         }
     },
-    { prop = "prop_gas_pump_1a", ropeOffset = { forward = 0.0, right = 0.0, up = 2.3 } },
-    { prop = "prop_gas_pump_1b", ropeOffset = { forward = 0.0, right = 0.0, up = 2.3 } },
-    { prop = "prop_gas_pump_1c", ropeOffset = { forward = 0.0, right = 0.0, up = 2.3 } },
-    { prop = "prop_vintage_pump", ropeOffset = { forward = 0.0, right = 0.0, up = 1.8 } },
+    { prop = "prop_gas_pump_1a",   ropeOffset = { forward = 0.0, right = 0.0, up = 2.3 } },
+    { prop = "prop_gas_pump_1b",   ropeOffset = { forward = 0.0, right = 0.0, up = 2.3 } },
+    { prop = "prop_gas_pump_1c",   ropeOffset = { forward = 0.0, right = 0.0, up = 2.3 } },
+    { prop = "prop_vintage_pump",  ropeOffset = { forward = 0.0, right = 0.0, up = 1.8 } },
     { prop = "prop_gas_pump_old2", ropeOffset = { forward = 0.0, right = 0.0, up = 1.6 } },
     { prop = "prop_gas_pump_old3", ropeOffset = { forward = 0.0, right = 0.0, up = 1.6 } },
+
+    -- Roxwood
+    { prop = "amb_rox_caspump_pf", ropeOffset = { forward = 0.0, right = 0.0, up = 1.6 } },
+
 }
 
 -- Add here locations for gas pumps props to spawn
 Config.CustomGasPumpLocations = {
-    { prop = "prop_gas_pump_1b", location = vector4(442.2, -977.17, 42.69, 270.3), ropeLength = 14.0 },
-    { prop = "prop_gas_pump_1b", location = vector4(362.65, -592.64, 73.16, 71.26), ropeLength = 14.0 },
-    { prop = "prop_gas_pump_1b", location = vector4(301.12, -1465.61, 45.51, 321.3), ropeLength = 14.0 },
-    { prop = "prop_gas_pump_1b", location = vector4(-923.12, -2976.81, 12.95, 149.55), ropeLength = 14.0 },
+    { prop = "prop_gas_pump_1b", location = vector4(442.2, -977.17, 42.69, 270.3),      ropeLength = 14.0 },
+    { prop = "prop_gas_pump_1b", location = vector4(362.65, -592.64, 73.16, 71.26),     ropeLength = 14.0 },
+    { prop = "prop_gas_pump_1b", location = vector4(301.12, -1465.61, 45.51, 321.3),    ropeLength = 14.0 },
+    { prop = "prop_gas_pump_1b", location = vector4(-923.12, -2976.81, 12.95, 149.55),  ropeLength = 14.0 },
     { prop = "prop_gas_pump_1b", location = vector4(-1665.44, -3104.53, 12.94, 329.89), ropeLength = 14.0 },
-    { prop = "prop_gas_pump_1b", location = vector4(-706.13, -1464.14, 4.04, 320.0), ropeLength = 14.0 },
-    { prop = "prop_gas_pump_1b", location = vector4(-764.81, -1434.32, 4.06, 320.0), ropeLength = 14.0 },
-    { prop = "prop_gas_pump_1b", location = vector4(-805.9, -1496.68, 0.6, 200.00), ropeLength = 14.0 },
-    { prop = "prop_gas_pump_1b", location = vector4(-2148.8, 3283.99, 31.81, 240.0), ropeLength = 14.0 },
-    { prop = "prop_gas_pump_1b", location = vector4(-486.22, 5977.65, 30.3, 315.4), ropeLength = 14.0 },
-    { prop = "prop_gas_pump_1b", location = vector4(2101.82, 4776.8, 40.02, 21.41), ropeLength = 14.0 },
-    { prop = "prop_gas_pump_1b", location = vector4(1338.13, 4269.62, 30.5, 85.00), ropeLength = 14.0 },
-    { prop = "prop_gas_pump_1b", location = vector4(-1089.72, -830.6, 36.68, 129.00), ropeLength = 14.0 },
-    { prop = "prop_gas_pump_1b", location = vector4(483.28, -3382.83, 5.07, 0.0), ropeLength = 14.0 },
-    { prop = "prop_gas_pump_1b", location = vector4(-1158.29, -2848.67, 12.95, 240.0), ropeLength = 14.0 },
-    { prop = "prop_gas_pump_1b", location = vector4(-1125.15, -2866.97, 12.95, 240.0), ropeLength = 14.0 },
-    { prop = "prop_gas_pump_1b", location = vector4(1771.81, 3229.24, 41.51, 15.00), ropeLength = 14.0 },
-    { prop = "prop_gas_pump_1b", location = vector4(1748.31, 3297.08, 40.16, 15.0), ropeLength = 14.0 },
+    { prop = "prop_gas_pump_1b", location = vector4(-706.13, -1464.14, 4.04, 320.0),    ropeLength = 14.0 },
+    { prop = "prop_gas_pump_1b", location = vector4(-764.81, -1434.32, 4.06, 320.0),    ropeLength = 14.0 },
+    { prop = "prop_gas_pump_1b", location = vector4(-805.9, -1496.68, 0.6, 200.00),     ropeLength = 14.0 },
+    { prop = "prop_gas_pump_1b", location = vector4(-2148.8, 3283.99, 31.81, 240.0),    ropeLength = 14.0 },
+    { prop = "prop_gas_pump_1b", location = vector4(-486.22, 5977.65, 30.3, 315.4),     ropeLength = 14.0 },
+    { prop = "prop_gas_pump_1b", location = vector4(2101.82, 4776.8, 40.02, 21.41),     ropeLength = 14.0 },
+    { prop = "prop_gas_pump_1b", location = vector4(1338.13, 4269.62, 30.5, 85.00),     ropeLength = 14.0 },
+    { prop = "prop_gas_pump_1b", location = vector4(-1089.72, -830.6, 36.68, 129.00),   ropeLength = 14.0 },
+    { prop = "prop_gas_pump_1b", location = vector4(483.28, -3382.83, 5.07, 0.0),       ropeLength = 14.0 },
+    { prop = "prop_gas_pump_1b", location = vector4(-1158.29, -2848.67, 12.95, 240.0),  ropeLength = 14.0 },
+    { prop = "prop_gas_pump_1b", location = vector4(-1125.15, -2866.97, 12.95, 240.0),  ropeLength = 14.0 },
+    { prop = "prop_gas_pump_1b", location = vector4(1771.81, 3229.24, 41.51, 15.00),    ropeLength = 14.0 },
+    { prop = "prop_gas_pump_1b", location = vector4(1748.31, 3297.08, 40.16, 15.0),     ropeLength = 14.0 },
 }
 
 -- Vehicles that dont use fuel
@@ -382,33 +387,33 @@ Config.DebugNozzleOffset = false
 
 -- Custom parameters based on vehicle (Add vehicles in this list is optional, but if you want everything to be perfect, then you should).
 Config.CustomVehicleParameters = {
-    ["default"] = { 			-- Default configuration for vehicles not listed in this list
-        distance = 1.2,			-- Interaction distance (larger vehicles need a bigger value)
-        nozzleOffset = {		-- Nozzle attachment offset
-            forward = 0.0,		-- Forward/backward offset
-            right = -0.15,		-- Left/right offset
-            up = 0.5			-- Vertical offset
+    ["default"] = {        -- Default configuration for vehicles not listed in this list
+        distance = 1.2,    -- Interaction distance (larger vehicles need a bigger value)
+        nozzleOffset = {   -- Nozzle attachment offset
+            forward = 0.0, -- Forward/backward offset
+            right = -0.15, -- Left/right offset
+            up = 0.5       -- Vertical offset
         },
-        nozzleRotation = {		-- (optional) Nozzle rotation
+        nozzleRotation = { -- (optional) Nozzle rotation
             x = 0, y = 0, z = 0
         }
     },
 
     -- Examples:
     -- Cars
-    ["asbo"] = { distance = 1.2, nozzleOffset = { forward = 0.0, right = -0.21, up = 0.50} },
+    ["asbo"] = { distance = 1.2, nozzleOffset = { forward = 0.0, right = -0.21, up = 0.50 } },
     -- Trucks
-    ["benson"] = { distance = 1.3, nozzleOffset = { forward = 0.32, right = 0.40, up = 0.21} , nozzleRotation = { x = 0, y = 0, z = 180} },
+    ["benson"] = { distance = 1.3, nozzleOffset = { forward = 0.32, right = 0.40, up = 0.21 }, nozzleRotation = { x = 0, y = 0, z = 180 } },
 }
 
 -- Settings for the map blips
 Config.Blips = {
-    enabled = true,				-- Enable/ disable the blips
-    onlyShowNearestBlip = false,-- This will only show the nearest gas station to the user
-    blipId = 361,				-- Blip ID https://docs.fivem.net/docs/game-references/blips/
-    color = 41,					-- Blip Color
-    scale = 0.6,				-- Blip Scale
-    locations = {				-- Locations that the blips will appear in the map
+    enabled = false,             -- Enable/ disable the blips
+    onlyShowNearestBlip = false, -- This will only show the nearest gas station to the user
+    blipId = 361,                -- Blip ID https://docs.fivem.net/docs/game-references/blips/
+    color = 41,                  -- Blip Color
+    scale = 0.6,                 -- Blip Scale
+    locations = {                -- Locations that the blips will appear in the map
         vector3(49.4187, 2778.793, 58.043),
         vector3(263.894, 2606.463, 44.983),
         vector3(1039.958, 2671.134, 39.550),
@@ -429,7 +434,7 @@ Config.Blips = {
         vector3(-70.2148, -1761.792, 29.534),
         vector3(265.648, -1261.309, 29.292),
         vector3(819.653, -1028.846, 26.403),
-        vector3(1208.951, -1402.567,35.224),
+        vector3(1208.951, -1402.567, 35.224),
         vector3(1181.381, -330.847, 69.316),
         vector3(620.843, 269.100, 103.089),
         vector3(2581.321, 362.039, 108.468),
@@ -442,45 +447,49 @@ Config.Blips = {
 
 -- Electric section
 Config.Electric = {
-    enabled = true,						-- Enable/ disable electric things
-    chargersLocation = {				-- Location of the props
-        { prop = "prop_electric_01", location = vector4(175.9, -1546.65, 28.26, 225.29), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(-51.09, -1767.02, 28.26, 48.16), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(-514.06, -1216.25, 17.46, 67.29), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(-704.64, -935.71, 18.21, 91.02), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(279.79, -1237.35, 28.35, 182.07), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(834.27, -1028.7, 26.16, 89.39), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(1194.41, -1394.44, 34.37, 271.3), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(1168.38, -323.56, 68.3, 281.22), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(633.64, 247.22, 102.3, 61.29), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(-1420.51, -278.76, 45.26, 138.35), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(-2080.61, -338.52, 12.26, 353.21), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(-98.12, 6403.39, 30.64, 142.49), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(181.14, 6636.17, 30.61, 180.96), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(1714.14, 6425.44, 31.79, 156.94), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(1703.57, 4937.23, 41.08, 56.74), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(1994.54, 3778.44, 31.18, 216.25), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(1770.86, 3337.97, 40.43, 302.1), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(2690.25, 3265.62, 54.24, 59.98), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(1033.32, 2662.91, 38.55, 96.38), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(267.96, 2599.47, 43.69, 6.8), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(50.21, 2787.38, 56.88, 148.2), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(-2570.04, 2317.1, 32.22, 22.29), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(2545.81, 2586.18, 36.94, 84.74), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(2561.24, 357.3, 107.62, 267.65), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(-1819.22, 798.51, 137.16, 316.13), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(-341.63, -1459.39, 29.76, 272.73), ropeLength = 7.5 },
-        { prop = "prop_electric_01", location = vector4(-3099.4470, 1431.6660, 19.6253, 326.2006), ropeLength = 7.5 },
+    enabled = true,      -- Enable/ disable electric things
+    chargersLocation = { -- Location of the props
+        { prop = "prop_electric_01",    location = vector4(175.9, -1546.65, 28.26, 225.29),           ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(-51.09, -1767.02, 28.26, 48.16),           ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(-514.06, -1216.25, 17.46, 67.29),          ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(-704.64, -935.71, 18.21, 91.02),           ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(279.79, -1237.35, 28.35, 182.07),          ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(834.27, -1028.7, 26.16, 89.39),            ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(1194.41, -1394.44, 34.37, 271.3),          ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(1168.38, -323.56, 68.3, 281.22),           ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(633.64, 247.22, 102.3, 61.29),             ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(-1420.51, -278.76, 45.26, 138.35),         ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(-2080.61, -338.52, 12.26, 353.21),         ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(-98.12, 6403.39, 30.64, 142.49),           ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(181.14, 6636.17, 30.61, 180.96),           ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(1714.14, 6425.44, 31.79, 156.94),          ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(1703.57, 4937.23, 41.08, 56.74),           ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(1994.54, 3778.44, 31.18, 216.25),          ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(1770.86, 3337.97, 40.43, 302.1),           ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(2690.25, 3265.62, 54.24, 59.98),           ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(1033.32, 2662.91, 38.55, 96.38),           ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(267.96, 2599.47, 43.69, 6.8),              ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(50.21, 2787.38, 56.88, 148.2),             ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(-2570.04, 2317.1, 32.22, 22.29),           ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(2545.81, 2586.18, 36.94, 84.74),           ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(2561.24, 357.3, 107.62, 267.65),           ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(-1819.22, 798.51, 137.16, 316.13),         ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(-341.63, -1459.39, 29.76, 272.73),         ropeLength = 7.5 },
+        { prop = "prop_electric_01",    location = vector4(-3099.4470, 1431.6660, 19.6253, 326.2006), ropeLength = 7.5 },
+
+        -- Roxwood
+        { prop = "amb_pearl_evcharger", location = vector4(-510.963, 7580.639, 5.598, 319.0),         ropeLength = 7.5 },
     },
-    chargersProps = {					-- List of the props and their offsets to fuel rope
-        { prop = "prop_electric_01", ropeOffset = { forward = 0.0, right = 0.25, up = 0.3 } },
+    chargersProps = { -- List of the props and their offsets to fuel rope
+        { prop = "prop_electric_01",    ropeOffset = { forward = 0.0, right = 0.25, up = 0.3 } },
+        { prop = "amb_pearl_evcharger", ropeOffset = { forward = 0.0, right = 0.25, up = 0.3 } },
     },
     -- Fast / Normal types
     chargeTypes = {
         fast = {
-            price = 2.5,				-- Price per 1% recharged
-            time = 0.8,					-- Time in seconds to recharge 0.5% of battery in the vehicle (lower values means faster refuel)
-            stock = true				-- Set if the charger will have stock when not owned 
+            price = 2.5, -- Price per 1% recharged
+            time = 0.8,  -- Time in seconds to recharge 0.5% of battery in the vehicle (lower values means faster refuel)
+            stock = true -- Set if the charger will have stock when not owned
         },
         normal = {
             price = 1.8,
@@ -488,7 +497,7 @@ Config.Electric = {
             stock = true
         }
     },
-    vehiclesList = {					-- Electric vehicles list
+    vehiclesList = { -- Electric vehicles list
         "voltic",
         "voltic2",
         "caddy",
