@@ -108,7 +108,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div id="electric-charger-container" class="electric-charger-container" style="display: none; zoom: 100%; overflow: hidden;">
             <img src="images/electric_charger.png" alt="background" width="1920">
             <div class="electric-charger-elements-container">
@@ -152,7 +152,7 @@
                     </section>
                     <button id="electric-charger-continue-type-button" class="electric-charger-button" onclick="chargerTypeContinue()"></button>
                 </div>
-                
+
                 <div class="electric-charger-amount-container" style="display: none;">
                     <div onclick="chargerAmountReturn()" class="electric-charger-return-container">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
@@ -184,6 +184,7 @@
                     </div>
                     <h5 id="electric-charger-payment-title" class="electric-charger-title"></h5>
                     <section class="electric-charger-buttons-container">
+                        <!--
                         <div>
                             <input class="electric-charger-type-input" type="radio" id="charger-payment-money" name="charger-payment" value="account1" checked>
                             <label class="electric-charger-type-label" for="charger-payment-money">
@@ -191,6 +192,7 @@
                                 <h2 id="electric-charger-payment-money"></h2>
                             </label>
                         </div>
+                        -->
                         <div>
                             <input class="electric-charger-type-input" type="radio" id="charger-payment-bank" name="charger-payment" value="account2">
                             <label class="electric-charger-type-label" for="charger-payment-bank">
@@ -211,7 +213,7 @@
                 <p id="confirm-refuel-payment-modal-desc"></p>
                 <div class="modal-buttons">
                     <button id="confirm-refuel-payment-modal-pay-bank" class="modal-button" onclick="confirmRefuelPayment('account2')"></button>
-                    <button id="confirm-refuel-payment-modal-pay-cash" class="modal-button" onclick="confirmRefuelPayment('account1')"></button>
+                    <!--<button id="confirm-refuel-payment-modal-pay-cash" class="modal-button" onclick="confirmRefuelPayment('account1')"></button>-->
                 </div>
             </div>
         </div>
@@ -224,7 +226,7 @@
                 <h3 id="confirm-jerry-can-payment-modal-desc"></h3>
                 <div class="modal-buttons">
                     <button id="confirm-jerry-can-payment-modal-pay-bank" class="modal-button" onclick="confirmJerryCanPayment('account2')"></button>
-                    <button id="confirm-jerry-can-payment-modal-pay-cash" class="modal-button" onclick="confirmJerryCanPayment('account1')"></button>
+                    <!--<button id="confirm-jerry-can-payment-modal-pay-cash" class="modal-button" onclick="confirmJerryCanPayment('account1')"></button>-->
                 </div>
             </div>
         </div>
